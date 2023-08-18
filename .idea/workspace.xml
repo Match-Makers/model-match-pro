@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d2da2f61-e3cd-423a-af44-4f8a4e62b2af" name="Changes" comment="" />
+    <list default="true" id="d2da2f61-e3cd-423a-af44-4f8a4e62b2af" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/frontend/test_file" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,7 +26,9 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -37,6 +41,7 @@
       <option name="presentableId" value="Default" />
       <updated>1692323310042</updated>
       <workItem from="1692323312964" duration="7000" />
+      <workItem from="1692323337459" duration="343000" />
     </task>
     <servers />
   </component>
