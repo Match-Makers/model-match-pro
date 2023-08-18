@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import LLM, Prompt, Responses
 
-# Register your models here.
+admin.site.register(LLM)
+admin.site.register(Prompt)
+admin.site.register(Responses)

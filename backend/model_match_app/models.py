@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 class LLM(models.Model):
     name = models.CharField(max_length=64)
     api_code = models.CharField(max_length=64)
+#for each model we will generate a separate API call
 
     def __str__(self):
         return self.name
