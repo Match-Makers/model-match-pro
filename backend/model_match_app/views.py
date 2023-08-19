@@ -23,7 +23,8 @@ class ResponseDetail(ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return Responses.objects.filter(user_id=user)
+        prompt_pk = self.kwargs['prompt_pk']
+        return Responses.objects.filter(prompt_id__user_id=user, prompt_id=prompt_pk)
 
 
 class LLMList(ListAPIView):
