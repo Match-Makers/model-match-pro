@@ -1,13 +1,13 @@
 import Header from '@/components/Header';
-import SignIn from '@/components/SignIn';
+import SignUpform from '@/components/SignUpForm';
 
-export default function Login() {
+export default function Register() {
   return (
     <>
       <Header>
         <button>this is the button</button>{' '}
       </Header>
-      <SignIn />
+      <SignUpform />
     </>
   );
 }
