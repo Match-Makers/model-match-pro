@@ -1,8 +1,7 @@
 import {useContext, useEffect} from 'react'
 import { useRouter } from 'next/router'
 import Header from '@/components/Header'
-import SignUpform from '@/components/SignUpForm'
-import SignIn from '@/components/SignIn'
+
 import {AuthContext} from '@/contexts/auth'
 
 

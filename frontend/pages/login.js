@@ -1,5 +1,4 @@
-import {useContext, useEffect} from 'react'
-import { useRouter } from 'next/router'
+import {useContext} from 'react'
 import Header from '@/components/Header'
 import SignUpform from '@/components/SignUpForm'
 import SignIn from '@/components/SignIn'
