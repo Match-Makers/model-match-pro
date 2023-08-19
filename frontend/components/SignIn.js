@@ -1,3 +1,4 @@
+
 export default function SignIn() {
   return (
     <form className="flex flex-col items-center max-w-2xl mx-auto my-6 rounded-md bg-slate-400">
@@ -6,7 +7,7 @@ export default function SignIn() {
           Username
         </label>
         <input
-          type="email"
+          type="text"
           className="form-control"
           id="username"
           aria-describedby="username"
