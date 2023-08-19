@@ -8,9 +8,13 @@ export default function Header() {
     <BootstrapHeader>
       <h1>Model Match Pro</h1>
       <div>
-        <button>About</button>
-        {user && user.id && <button>History</button>}
-        {user && user.id && <button>Sign Out</button>}
+        <button className="btn btn-secondary">About</button>
+        {user && user.id && (
+          <button className="btn btn-secondary">History</button>
+        )}
+        {user && user.id && (
+          <button className="btn btn-secondary">Sign Out</button>
+        )}
       </div>
     </BootstrapHeader>
   );
