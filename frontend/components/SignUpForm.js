@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function SignUpform() {
   return (
     <form className="flex flex-col items-center max-w-2xl mx-auto my-6 rounded-md bg-slate-400">
@@ -28,7 +30,9 @@ export default function SignUpform() {
         Sign Up
       </button>
       <div className="mb-3">
-        <p>Sign In if you already have an account</p>
+        <p>
+          <Link href={'/login'}>Sign In</Link> if you already have an account
+        </p>
       </div>
     </form>
   );

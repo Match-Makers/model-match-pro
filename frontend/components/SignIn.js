@@ -1,3 +1,4 @@
+import Link from 'next/link';
 
 export default function SignIn() {
   return (
@@ -23,7 +24,10 @@ export default function SignIn() {
         Sign In
       </button>
       <div className="mb-3">
-        <p>Sign Up if you don&apos;t already have an account</p>
+        <p>
+          <Link href={'/register'}>Sign Up</Link> if you don&apos;t already have
+          an account.
+        </p>
       </div>
     </form>
   );
