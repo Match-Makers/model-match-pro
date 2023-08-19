@@ -10,7 +10,7 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 
         # if we're allowing the purchaser to be null in Model
         # then this will check for that case and allow access
-        if obj.owner is None:
+        if obj.user_id is None:
             return True
 
-        return obj.owner == request.user
+        return obj.user_id == request.user

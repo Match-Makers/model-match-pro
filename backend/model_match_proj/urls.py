@@ -1,8 +1,7 @@
-"""
-URL configuration for model_match_proj project.
+"""model_match_proj URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.2/topics/http/urls/
+    https://docs.djangoproject.com/en/3.1/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -15,8 +14,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
+from rest_framework_simplejwt import views as jwt_views
+from .views import MyTokenObtainPairView
+from django.views.generic.base import TemplateView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("api/v1/model_match_app/", include("model_match_app.urls")),
+    path("api-auth/", include("rest_framework.urls")),
+    path(
+        "api/token/",
+        MyTokenObtainPairView.as_view(),
+        name="token_obtain_pair",
+    ),
+    path(
+        "api/token/refresh/",
+        jwt_views.TokenRefreshView.as_view(),
+        name="token_refresh",
+    ),
 ]
