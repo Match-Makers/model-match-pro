@@ -1,8 +1,9 @@
-import { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import jwt from 'jsonwebtoken';
+import Cookies from 'js-cookie';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-const tokenUrl = baseUrl + '/api/token/';
+const tokenUrl = `${baseUrl}/api/token/`;
 
 export const AuthContext = createContext({});
 
@@ -24,6 +25,26 @@ export function AuthProvider(props) {
     logout,
   });
 
+  useEffect(() => {
+    const storedTokens = Cookies.get('authTokens');
+    if (storedTokens) {
+      setState((prevState) => ({
+        ...prevState,
+        tokens: JSON.parse(storedTokens),
+        user: getUserFromToken(JSON.parse(storedTokens)),
+      }));
+    }
+  }, []);
+
+  function getUserFromToken(tokens) {
+    const decodedAccess = jwt.decode(tokens.access);
+    return {
+      username: decodedAccess.username,
+      email: decodedAccess.email,
+      id: decodedAccess.user_id,
+    };
+  }
+
   async function login(username, password) {
     try {
       const options = {
@@ -32,21 +53,20 @@ export function AuthProvider(props) {
         headers: { 'Content-Type': 'application/json' },
       };
       const response = await fetch(tokenUrl, options);
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
       const data = await response.json();
-      const decodedAccess = jwt.decode(data.access);
       const newState = {
         tokens: data,
-        user: {
-          username: decodedAccess.username,
-          email: decodedAccess.email,
-          id: decodedAccess.user_id,
-        },
+        user: getUserFromToken(data),
+        error: undefined,
       };
       setState((prevState) => ({
         ...prevState,
-        error: undefined,
         ...newState,
       }));
+      Cookies.set('authTokens', JSON.stringify(data));
     } catch (err) {
       const error = err.toString();
       console.error(err);
@@ -55,27 +75,26 @@ export function AuthProvider(props) {
   }
 
   function logout() {
-    const newState = {
+    setState({
       tokens: null,
       user: null,
-    };
-    setState((prevState) => ({ ...prevState, ...newState }));
+    });
+    Cookies.remove('authTokens');
   }
 
   async function register(username, password, email) {
-    const registerUrl = baseUrl + '/api/register';
+    const registerUrl = `${baseUrl}/api/register`;
     const options = {
       method: 'POST',
       body: JSON.stringify({ username, password, email }),
       headers: { 'Content-Type': 'application/json' },
     };
-
     const response = await fetch(registerUrl, options);
     if (response.ok) {
       const data = await response.json();
       console.log('Registration Successful', data);
       // Automatically log in the user after successful registration
-      login(username, password);
+      await login(username, password);
     } else {
       console.error('Registration Failed');
     }

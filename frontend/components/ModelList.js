@@ -1,9 +1,12 @@
 import { ListGroup, ListGroupItem } from 'reactstrap';
+import useModels from '@/hooks/useModels';
 
 export default function ModelList(props) {
+  const { models, toggleModelActive } = useModels();
+
   return (
     <ListGroup className="mx-4">
-      {props.models.map((model) => (
+      {models.map((model) => (
         <ListGroupItem
           href="#"
           tag="button"
