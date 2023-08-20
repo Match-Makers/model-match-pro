@@ -4,37 +4,50 @@ export const apiUrl = process.env.NEXT_PUBLIC_RESOURCE_URL;
 import { useAuth } from '@/contexts/auth';
 import { useEffect, useState } from 'react';
 
+const MOCK_DATA = [
+  {
+    model: 'Bard',
+    code: 'bard_code',
+  },
+  {
+    model: 'GPT',
+    code: 'gpt_code',
+  },
+  {
+    model: 'JerryBot',
+    code: 'jerry_code',
+    id: 'jerry_code',
+  },
+  {
+    model: 'DeioshaBot',
+    code: 'deiosha_code',
+  },
+];
+
 export default function useModels() {
-  const { tokens, logout } = useAuth();
-  const { data = [], error } = useSWR([apiUrl, tokens], fetchModels);
-  const [mappedModels, setMappedModels] = useState(data);
-  console.log({ tokens, data, mappedModels });
-  // useEffect(() => {
-  //   setMappedModels(
-  //     data.map((model) => ({
-  //       ...model,
-  //       loading: false,
-  //       active: false,
-  //     }))
-  //   );
-  // }, [data, mappedModels]);
+  const { tokens } = useAuth();
+  const { data: apiData = [], error } = useSWR([apiUrl, tokens], fetchModels);
+  //   TEMP
+  console.warn('API Data:', apiData);
+  const data = MOCK_DATA;
+  //
+  const [selectedModels, setSelectedModels] = useState([]);
 
   async function fetchModels() {
-    // if (!tokens) {
-    //   return;
-    // }
-    // try {
-    //   const response = await fetch(apiUrl, config());
-    //   const responseJSON = await response.json();
-    //   return responseJSON;
-    // } catch (err) {
-    //   handleError(err);
-    // }
+    try {
+      if (!tokens) {
+        throw new Error('No auth tokens found');
+      }
+      const response = await fetch(apiUrl, config());
+      const responseJSON = await response.json();
+      return responseJSON;
+    } catch (err) {
+      handleError(err);
+    }
   }
 
   function handleError(err) {
-    console.error(err);
-    logout();
+    console.error(`fetchModels: ${err}`);
   }
 
   function config() {
@@ -46,16 +59,17 @@ export default function useModels() {
     };
   }
 
-  function toggleModelActive(model) {
-    setModels(
-      models.map((m) =>
-        m.code === model.code ? { ...m, active: !m.active } : m
-      )
+  function toggleModelActive(modelCode) {
+    setSelectedModels((prevSelected) =>
+      prevSelected.some((m) => m === modelCode)
+        ? prevSelected.filter((m) => m !== modelCode)
+        : [...prevSelected, modelCode]
     );
   }
 
   return {
     models: data,
+    selectedModels,
     error,
     loading: tokens && !error && !data,
     toggleModelActive,

@@ -14,7 +14,7 @@ export default function Search() {
     if (!user || !user.id) {
       push('/login');
     }
-  }, []);
+  }, [user]);
   return (
     <>
       <Header />

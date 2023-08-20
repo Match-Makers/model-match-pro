@@ -2,7 +2,7 @@ import { ListGroup, ListGroupItem } from 'reactstrap';
 import useModels from '@/hooks/useModels';
 
 export default function ModelList() {
-  const { models, toggleModelActive } = useModels();
+  const { models, selectedModels, toggleModelActive } = useModels();
 
   return (
     <ListGroup className="mx-4">
@@ -10,9 +10,9 @@ export default function ModelList() {
         <ListGroupItem
           href="#"
           tag="button"
-          onClick={() => toggleModelActive(model)}
-          key={model.model}
-          active={model.active}
+          onClick={() => toggleModelActive(model.code)}
+          key={model.code}
+          active={selectedModels.some((m) => m === model.code)}
         >
           {model.model}
         </ListGroupItem>
