@@ -1,3 +1,7 @@
+import asyncio
+
+import requests_mock
+from .views import make_api_call
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
@@ -82,3 +86,28 @@ class ViewTests(TransactionTestCase):
         Prompt.objects.filter(user_id=self.user.id).delete()
         super().tearDown()
 
+
+#tests mock response from Huggingface API
+
+def test_hugging_face_api_call():
+    mock_response = {
+        "generated_text": "can you please let us know the details of your ride?"
+    }
+    with requests_mock.Mocker() as mock:
+        mock.post("https://api-inference.huggingface.co/models/Deci/DeciCoder-1b", json=mock_response, status_code=200)
+
+        api_code = "Deci/DeciCoder-1b"
+        query = "can you please let us know more details about your"
+
+        loop =asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        try:
+            response, error = loop.run_until_complete(make_api_call(api_code,query))
+        finally:
+            loop.close()
+        print(error)
+        print(response)
+        assert response is not None
+        assert error is None
+        assert 'generated_text' in response
+        assert response['generated_text'] == "can you please let us know the details of your ride?"
