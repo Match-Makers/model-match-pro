@@ -9,15 +9,15 @@ export default function useModels() {
   const { data = [], error } = useSWR([apiUrl, tokens], fetchModels);
   const [mappedModels, setMappedModels] = useState(data);
   console.log({ tokens, data, mappedModels });
-  useEffect(() => {
-    setMappedModels(
-      data.map((model) => ({
-        ...model,
-        loading: false,
-        active: false,
-      }))
-    );
-  }, [data, mappedModels]);
+  // useEffect(() => {
+  //   setMappedModels(
+  //     data.map((model) => ({
+  //       ...model,
+  //       loading: false,
+  //       active: false,
+  //     }))
+  //   );
+  // }, [data, mappedModels]);
 
   async function fetchModels() {
     if (!tokens) {

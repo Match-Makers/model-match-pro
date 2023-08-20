@@ -26,7 +26,7 @@ export function AuthProvider(props) {
   });
 
   useEffect(() => {
-    const storedTokens = Cookies.get('authTokens');
+    const storedTokens = Cookies.get('authToken');
     if (storedTokens) {
       setState((prevState) => ({
         ...prevState,
@@ -57,6 +57,7 @@ export function AuthProvider(props) {
         throw new Error('Login failed');
       }
       const data = await response.json();
+      console.warn('login:60', { data });
       const newState = {
         tokens: data,
         user: getUserFromToken(data),
@@ -66,7 +67,7 @@ export function AuthProvider(props) {
         ...prevState,
         ...newState,
       }));
-      Cookies.set('authTokens', JSON.stringify(data));
+      Cookies.set('authToken', JSON.stringify(data));
     } catch (err) {
       const error = err.toString();
       console.error(err);
@@ -79,7 +80,7 @@ export function AuthProvider(props) {
       tokens: null,
       user: null,
     });
-    Cookies.remove('authTokens');
+    Cookies.remove('authToken');
   }
 
   async function register(username, password, email) {
