@@ -1,6 +1,7 @@
 import useSWR from 'swr';
 
-export const apiUrl = process.env.NEXT_PUBLIC_RESOURCE_URL;
+const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/model_match_app/`;
+
 import { useAuth } from '@/contexts/auth';
 import { useEffect, useState } from 'react';
 
@@ -28,7 +29,7 @@ export default function useModels() {
   const { tokens } = useAuth();
   const { data: apiData = [], error } = useSWR([apiUrl, tokens], fetchModels);
   //   TEMP
-  console.warn('API Data:', apiData);
+  console.warn('API Data:', apiData, 'url:', apiUrl);
   const data = MOCK_DATA;
   //
   const [selectedModels, setSelectedModels] = useState([]);
