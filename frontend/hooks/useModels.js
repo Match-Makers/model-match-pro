@@ -27,10 +27,9 @@ const MOCK_DATA = [
 
 export default function useModels() {
   const { tokens } = useAuth();
-  const { data: apiData = [], error } = useSWR([apiUrl, tokens], fetchModels);
+  const { data = [], error } = useSWR([apiUrl, tokens], fetchModels);
   //   TEMP
-  console.warn('API Data:', apiData, 'url:', apiUrl);
-  const data = MOCK_DATA;
+  console.warn('API Data:', data, 'url:', apiUrl);
   //
   const [selectedModels, setSelectedModels] = useState([]);
 
@@ -61,6 +60,7 @@ export default function useModels() {
   }
 
   function toggleModelActive(modelCode) {
+    console.log({ modelCode, data, selectedModels });
     setSelectedModels((prevSelected) =>
       prevSelected.some((m) => m === modelCode)
         ? prevSelected.filter((m) => m !== modelCode)
