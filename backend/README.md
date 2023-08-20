@@ -10,10 +10,10 @@
 ## Overview
 
 - What is the vision of this product?
-  - Model-Match-Pro will enable its users to submit a single Large Language Model (LLM) prompt and then simltaneously compare the responses from multiple models to find which one(s) best match their use case.
+  - Model-Match-Pro enables its users to submit a single Large Language Model (LLM) prompt and then simltaneously compare the responses from multiple models to find which one(s) best match their use case.
 
 - What pain point does this project solve?
-  - With the recent proliferation of Large Language Models, many users pick their favorite and then try to engineer their prompts to work for their use case. Currently, there are very few, if any, applications that allow users to simltaneously compare results from multiple LLMs.
+  - With the recent proliferation of Large Language Models, many users pick their favorite and then try to engineer their prompts to work for their use case. Currently, there are very few, if any, applications that allow users to simltaneously compare results from multiple LLMs. Oftentimes, LLM users must test each LLM individually, and attempt to compare the responses through inefficient means.
 
 - Why should we care about your product?
   - Model-Match-Pro will be one of the few products providing a method to compare the results from multiple LLMs within the same web browser browser tab using a single prompt submission.
@@ -22,7 +22,7 @@
 
 - deployed application: ______TBD______
 
-## Back-end Set-up
+## Backend Set-up
 
 - In terminal (assumes git, python, and npm are previously installed):
   - Clone repo from GitHub:
@@ -35,7 +35,7 @@
   - Install requirements:
     - $ ```npm install -r requirements.txt```
   - Get secrets from project team for `/model-match-pro/backend/model_match_proj/.env`
-  - Start dev web server:
+  - Start dev server:
   - $ ```python manage.py runserver```
 - In browser (to run locally):
   - Django REST Framework default web pages:
