@@ -1,8 +1,18 @@
-import { createContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import jwt from 'jsonwebtoken';
+
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 const tokenUrl = baseUrl + '/api/token/';
+
 export const AuthContext = createContext({});
+
+export function useAuth() {
+  const auth = useContext(AuthContext);
+  if (!auth) {
+    throw new Error('You forgot AuthProvider!');
+  }
+  return auth;
+}
 
 export function AuthProvider(props) {
   const [state, setState] = useState({
@@ -13,6 +23,7 @@ export function AuthProvider(props) {
     login,
     logout,
   });
+
   async function login(username, password) {
     try {
       const options = {
@@ -42,6 +53,7 @@ export function AuthProvider(props) {
       setState((prevState) => ({ ...prevState, error }));
     }
   }
+
   function logout() {
     const newState = {
       tokens: null,
@@ -49,6 +61,7 @@ export function AuthProvider(props) {
     };
     setState((prevState) => ({ ...prevState, ...newState }));
   }
+
   async function register(username, password, email) {
     const registerUrl = baseUrl + '/api/register';
     const options = {
@@ -56,6 +69,7 @@ export function AuthProvider(props) {
       body: JSON.stringify({ username, password, email }),
       headers: { 'Content-Type': 'application/json' },
     };
+
     const response = await fetch(registerUrl, options);
     if (response.ok) {
       const data = await response.json();
@@ -66,14 +80,8 @@ export function AuthProvider(props) {
       console.error('Registration Failed');
     }
   }
+
   return (
     <AuthContext.Provider value={state}>{props.children}</AuthContext.Provider>
   );
 }
-
-
-
-
-
-
-
