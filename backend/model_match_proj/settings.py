@@ -106,6 +106,9 @@ DATABASES = {
         "PASSWORD": env.str("DATABASE_PASSWORD"),
         "HOST": env.str("DATABASE_HOST"),
         "PORT": env.int("DATABASE_PORT"),
+        'TEST': {
+            'MIRROR': 'default',  # Use the main database for testing
+        },
     }
 }
 
