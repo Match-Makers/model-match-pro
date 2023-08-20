@@ -10,13 +10,13 @@
 ## Overview
 
 - What is the vision of this product?
-  - Model-Match-Pro will allow to developers to compare several models simultaneously to see which ones best match their use case.
+  - Model-Match-Pro will enable its users to submit a single Large Language Model (LLM) prompt and then simltaneously compare the responses from multiple models to find which one(s) best match their use case.
 
 - What pain point does this project solve?
-  - With the proliferation of large language models, many users pick their favorite and then try to engineer their prompts to work for their use case. Currently, there are very few, if any, applications that allow users to compare results from multiple LLMs.
+  - With the recent proliferation of Large Language Models, many users pick their favorite and then try to engineer their prompts to work for their use case. Currently, there are very few, if any, applications that allow users to simltaneously compare results from multiple LLMs.
 
 - Why should we care about your product?
-  - We will be one of the few products to bring together a method to compare results from multiple LLMs.
+  - Model-Match-Pro will be one of the few products providing a method to compare the results from multiple LLMs within the same web browser browser tab using a single prompt submission.
 
 ## Links
 
