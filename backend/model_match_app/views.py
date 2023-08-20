@@ -36,8 +36,10 @@ def make_api_call(api_code,query):
 
     #error handling
     if response.status_code != 200:
-        raise ValueError(f"API call failed with status code {response.status_code}: {response.text}")
-    return response.json()
+        error_message = f"API call failed for model {api_code} with status code {response.status_code}: {response.text}"
+        return None, error_message
+
+    return response.json(), None
 
 
 # lists and creates prompts
@@ -56,14 +58,27 @@ class PromptList(ListCreateAPIView):
         #if prompt successful
         if response.status_code == status.HTTP_201_CREATED:
             prompt = self.object
+            #to collect error messages
+            error_messages = []
+
             for model_id in prompt.lang_models:
                 lang_model = LLM.objects.get(pk=model_id)
                 #use prompt.input_str as the query to be sent to the api
-                api_response = make_api_call(lang_model.api_code, prompt.input_str)
+                api_response, error = make_api_call(lang_model.api_code, prompt.input_str)
 
                 #save the response
                 #api_response['generated_text'] per the actual structure of huggingface
-                Responses.objects.create(prompt_id=prompt, lang_model_id=lang_model, response=api_response['generated_text'])
+                if api_response:
+                    Responses.objects.create(prompt_id=prompt, lang_model_id=lang_model, response=api_response['generated_text'])
+                else:
+                    error_messages.append(error)
+            #if any of the models have issues, returns a summary message, and a list of error messages for the individual models, otherwise return normally
+            if error_messages:
+                custom_data = {
+                    'status': 'Some models did not return results.',
+                    'errors': error_messages
+                }
+                response.data.update(custom_data)
 
         return response
 
