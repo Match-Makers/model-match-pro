@@ -20,17 +20,16 @@ export default function useModels() {
   // }, [data, mappedModels]);
 
   async function fetchModels() {
-    if (!tokens) {
-      return;
-    }
-
-    try {
-      const response = await fetch(apiUrl, config());
-      const responseJSON = await response.json();
-      return responseJSON;
-    } catch (err) {
-      handleError(err);
-    }
+    // if (!tokens) {
+    //   return;
+    // }
+    // try {
+    //   const response = await fetch(apiUrl, config());
+    //   const responseJSON = await response.json();
+    //   return responseJSON;
+    // } catch (err) {
+    //   handleError(err);
+    // }
   }
 
   function handleError(err) {
