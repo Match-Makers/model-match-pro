@@ -24,7 +24,7 @@ class Prompt(models.Model):
 class Responses(models.Model):
     prompt_id = models.ForeignKey(Prompt, on_delete=models.CASCADE)
     lang_model_id = models.ForeignKey(LLM, on_delete=models.CASCADE)
-    response = models.TextField()
+    response = models.JSONField(default=list, null=True)
 
     def __str__(self):
         return self.response
