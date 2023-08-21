@@ -90,9 +90,12 @@ class ViewTests(TransactionTestCase):
 #tests mock response from Huggingface API
 
 def test_hugging_face_api_call():
-    mock_response = {
-        "generated_text": "can you please let us know the details of your ride?"
-    }
+    mock_response = [
+        {
+            "generated_text": "can you please let us know more details about your experience?`,\n    },\n    {\n      question:"
+        }
+    ]
+
     with requests_mock.Mocker() as mock:
         mock.post("https://api-inference.huggingface.co/models/Deci/DeciCoder-1b", json=mock_response, status_code=200)
 
@@ -109,5 +112,7 @@ def test_hugging_face_api_call():
         print(response)
         assert response is not None
         assert error is None
-        assert 'generated_text' in response
-        assert response['generated_text'] == "can you please let us know the details of your ride?"
+        assert 'generated_text' in response[0]
+        assert response[0][
+                   'generated_text'] == "can you please let us know more details about your experience?`,\n    },\n    {\n      question:"
+

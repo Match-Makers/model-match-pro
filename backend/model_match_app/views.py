@@ -22,17 +22,19 @@ if not API_TOKEN:
     raise ValueError("API_TOKEN is not set in .env file.")
 
 HEADERS ={"Authorization": f"Bearer {API_TOKEN}"}
-BASE_API_URL = "https://api-inference.hugglingface.co/models/"
+BASE_API_URL = "https://api-inference.huggingface.co/models/"
 
 async def make_api_call(api_code,query):
     #construct the complete API URL using the model's api_code
     api_url = f"{BASE_API_URL}{api_code}"
     #build the payload per docs
     payload = {"inputs": query}
-    async with httpx.AsyncClient() as client:
-    #make the api request
+    async with httpx.AsyncClient(follow_redirects=False) as client:
+        #make the api request
         response = await client.post(api_url, headers=HEADERS, json=payload)
-
+    if response.status_code == 302:
+        redirect_url = response.headers.get('Location')
+        print("Redirecting to:", redirect_url)
     #error handling
     if response.status_code != 200:
         error_message = f"API call failed for model {api_code} with status code {response.status_code}: {response.text}"
