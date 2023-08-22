@@ -43,13 +43,14 @@ BASE_API_URL = "https://api-inference.huggingface.co/models/"
 #
 #     return response.json(), None
 
-def make_api_call(api_code, query):
+def make_api_call(api_code, input_str):
     api_url = f"{BASE_API_URL}{api_code}"
-    payload = {"inputs": query}
+    payload = {"inputs": input_str}
 
+    print(f"Making API call to {api_url} with query: {input_str}")
     with httpx.Client() as client:
         response = client.post(api_url, headers=HEADERS, json=payload)
-
+    print(f"Received status code {response.status_code} from {api_url}")
     if response.status_code == 302:
         redirect_url = response.headers.get('Location')
         print("Redirecting to:", redirect_url)
@@ -58,7 +59,10 @@ def make_api_call(api_code, query):
         error_message = f"API call failed for model {api_code} with status code {response.status_code}: {response.text}"
         return None, error_message
 
-    return response.json(), None
+    api_response = response.json()
+    print(f"Received API response: {api_response}")
+
+    return api_response, None
 
 
 # lists and creates prompts
@@ -71,6 +75,7 @@ class PromptList(ListCreateAPIView):
         return Prompt.objects.filter(user_id=user)
 
     def create(self, request, *args, **kwargs):
+        print("Creating a new prompt...")
         response = super(PromptList, self).create(request, *args, **kwargs)
         if response.status_code == status.HTTP_201_CREATED:
             self.create_responses(response, request, *args, **kwargs)
@@ -128,16 +133,21 @@ class PromptList(ListCreateAPIView):
     #         }
     #         response.data.update(custom_data)
     def create_responses(self, response, request, *args, **kwargs):
+        print("Creating responses for the prompt...")
         input_str = response.data.get('input_str')
+        print(input_str)
+        print(response.data)
         lang_models = response.data.get('lang_models')
+        print(lang_models)
         prompt = Prompt.objects.create(
             user_id_id=self.request.user.id, input_str=input_str, lang_models=lang_models)
 
         error_messages = []
         api_responses_list = []  # List to accumulate API responses
-
+        print("About to enter the loop with lang_models:", lang_models)
         for model_id in lang_models:
             lang_model = LLM.objects.get(pk=model_id)
+            print("Processing lang_model with ID:", model_id, "and API code:", lang_model.api_code)
             api_response, error = make_api_call(lang_model.api_code, input_str)
 
             if api_response:
