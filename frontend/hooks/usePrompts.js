@@ -31,7 +31,7 @@ export default function useModels() {
         // body: JSON.stringify(info),
         body: JSON.stringify({
           ...info,
-          api_code: ['gpt2'],
+          lang_models: info.lang_models,
           user_id: 6,
         }),
       };

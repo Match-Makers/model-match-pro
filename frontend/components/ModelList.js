@@ -10,9 +10,9 @@ export default function ModelList() {
         <ListGroupItem
           href="#"
           tag="button"
-          onClick={() => toggleModelActive(model.api_code)}
-          key={model.api_code}
-          active={selectedModels.some((m) => m === model.api_code)}
+          onClick={() => toggleModelActive(model.id)}
+          key={model.id}
+          active={selectedModels.some((m) => m === model.id)}
         >
           {model.name}
         </ListGroupItem>
