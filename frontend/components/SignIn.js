@@ -10,7 +10,6 @@ export default function SignIn() {
     for (let entry of formData.entries()) {
       user[entry[0]] = entry[1];
     }
-    console.log({ user });
     login(user.username, user.password);
   }
 

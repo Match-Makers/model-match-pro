@@ -1,11 +1,27 @@
 import useSWR from 'swr';
 
+import { useAuth } from '@/contexts/auth';
+import { createContext, useContext, useState } from 'react';
+
 const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/model_match_app/`;
 
-import { useAuth } from '@/contexts/auth';
-import { useState } from 'react';
+export const ModelsContext = createContext({
+  models: [],
+  selectedModels: [],
+  error: null,
+  loading: false,
+  toggleModelActive: () => undefined,
+});
 
-export default function useModels() {
+export function useModels() {
+  const context = useContext(ModelsContext);
+  if (!context) {
+    throw new Error('You forgot ModelsProvider!');
+  }
+  return context;
+}
+
+export default function ModelsProvider(props) {
   const { tokens } = useAuth();
   const { data = [], error } = useSWR([apiUrl, tokens], fetchModels);
   const [selectedModels, setSelectedModels] = useState([]);
@@ -45,11 +61,17 @@ export default function useModels() {
     );
   }
 
-  return {
-    models: data,
-    selectedModels,
-    error,
-    loading: tokens && !error && !data,
-    toggleModelActive,
-  };
+  return (
+    <ModelsContext.Provider
+      value={{
+        models: data,
+        selectedModels,
+        error,
+        loading: tokens && !error && !data,
+        toggleModelActive,
+      }}
+    >
+      {props.children}
+    </ModelsContext.Provider>
+  );
 }

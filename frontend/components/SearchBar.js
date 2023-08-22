@@ -1,16 +1,14 @@
-import useModels from '@/hooks/useModels';
-import usePrompts from '@/hooks/usePrompts';
+import { useModels } from '@/contexts/models';
+import { usePrompts } from '@/contexts/prompts';
 import { useState } from 'react';
 
 export default function SearchBar() {
   const { selectedModels } = useModels();
-  console.warn('SearchBar:useModels', [...selectedModels]);
 
   const [text, setText] = useState('');
   const { createPrompt } = usePrompts();
 
   function handleSubmit() {
-    console.log(selectedModels, 'I am selected models');
     createPrompt({ input_str: text, lang_models: selectedModels });
   }
   return (

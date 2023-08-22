@@ -147,13 +147,18 @@ class PromptList(ListCreateAPIView):
         print("About to enter the loop with lang_models:", lang_models)
         for model_id in lang_models:
             lang_model = LLM.objects.get(pk=model_id)
-            print("Processing lang_model with ID:", model_id, "and API code:", lang_model.api_code)
+            print("Processing lang_model with ID:", model_id,
+                  "and API code:", lang_model.api_code)
             api_response, error = make_api_call(lang_model.api_code, input_str)
 
             if api_response:
+                # Please help fix the following err:
+                # TypeError at /api/v1/model_match_app/prompts/
+                # list indices must be integers or slices, not str
                 Responses.objects.create(
                     prompt_id=prompt.pk, lang_model_id=lang_model, response=api_response['generated_text'])
-                api_responses_list.append(api_response['generated_text'])  # Append the response to the list
+                # Append the response to the list
+                api_responses_list.append(api_response['generated_text'])
             else:
                 error_messages.append(error)
 
