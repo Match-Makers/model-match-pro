@@ -9,6 +9,7 @@ export default function SearchBar() {
   const { createPrompt } = usePrompts();
 
   function handleSubmit() {
+    console.log(selectedModels, "I am selected models")
     createPrompt({ input_str: text, lang_models: selectedModels });
   }
   return (

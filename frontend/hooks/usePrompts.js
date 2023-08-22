@@ -31,10 +31,11 @@ export default function useModels() {
         // body: JSON.stringify(info),
         body: JSON.stringify({
           ...info,
-          lang_models: info.lang_models,
+          // lang_models: info.lang_models,
           user_id: 6,
         }),
       };
+      console.log(info, options)
       await fetch(apiUrl, options);
       // mutate(); // mutate causes complete collection to be refetched
     } catch (err) {
