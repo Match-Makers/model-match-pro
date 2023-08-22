@@ -156,9 +156,9 @@ class PromptList(ListCreateAPIView):
                 # TypeError at /api/v1/model_match_app/prompts/
                 # list indices must be integers or slices, not str
                 Responses.objects.create(
-                    prompt_id=prompt.pk, lang_model_id=lang_model, response=api_response['generated_text'])
+                    prompt_id=prompt, lang_model_id=lang_model, response=api_response[0]['generated_text'])
                 # Append the response to the list
-                api_responses_list.append(api_response['generated_text'])
+                api_responses_list.append(api_response[0]['generated_text'])
             else:
                 error_messages.append(error)
 
