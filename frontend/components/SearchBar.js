@@ -9,7 +9,7 @@ export default function SearchBar() {
   const { createPrompt } = usePrompts();
 
   function handleSubmit() {
-    createPrompt({ query: text, api_code: selectedModels });
+    createPrompt({ input_str: text, api_code: selectedModels });
   }
   return (
     <div className="flex flex-col max-w-2xl max-h-screen mx-auto my-4">

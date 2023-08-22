@@ -13,29 +13,30 @@ from rest_framework import status
 import httpx
 
 import environ
-env =environ.Env()
+env = environ.Env()
 environ.Env.read_env()
 
-API_TOKEN= env("API_TOKEN", default=None)
+API_TOKEN = env("API_TOKEN", default=None)
 
 if not API_TOKEN:
     raise ValueError("API_TOKEN is not set in .env file.")
 
-HEADERS ={"Authorization": f"Bearer {API_TOKEN}"}
+HEADERS = {"Authorization": f"Bearer {API_TOKEN}"}
 BASE_API_URL = "https://api-inference.huggingface.co/models/"
 
-async def make_api_call(api_code,query):
-    #construct the complete API URL using the model's api_code
+
+async def make_api_call(api_code, query):
+    # construct the complete API URL using the model's api_code
     api_url = f"{BASE_API_URL}{api_code}"
-    #build the payload per docs
+    # build the payload per docs
     payload = {"inputs": query}
     async with httpx.AsyncClient(follow_redirects=False) as client:
-        #make the api request
+        # make the api request
         response = await client.post(api_url, headers=HEADERS, json=payload)
     if response.status_code == 302:
         redirect_url = response.headers.get('Location')
         print("Redirecting to:", redirect_url)
-    #error handling
+    # error handling
     if response.status_code != 200:
         error_message = f"API call failed for model {api_code} with status code {response.status_code}: {response.text}"
         return None, error_message
@@ -54,40 +55,46 @@ class PromptList(ListCreateAPIView):
 
     def create(self, request, *args, **kwargs):
         response = super(PromptList, self).create(request, *args, **kwargs)
-        #if the prompt is successful
+        # if the prompt is successful
         if response.status_code == status.HTTP_201_CREATED:
-            loop = asyncio.get_running_loop()
-            loop.run_until_complete(self.async_create(response, request, *args, **kwargs))
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            try:
+                loop.run_until_complete(self.async_create(
+                    response, request, *args, **kwargs))
+            finally:
+                loop.close()
         return response
 
-    async def async_create(self,response, request, *args, **kwargs):
+    async def async_create(self, response, request, *args, **kwargs):
 
-            prompt = self.object
-            #to collect error messages
-            error_messages = []
+        prompt = self
+        # to collect error messages
+        error_messages = []
 
-            for model_id in prompt.lang_models:
-                lang_model = LLM.objects.get(pk=model_id)
+        for model_id in prompt.lang_models:
+            lang_model = LLM.objects.get(pk=model_id)
 
-                #use prompt.input_str as the query to be sent to the api
-                api_response, error = await make_api_call(lang_model.api_code, prompt.input_str)
+            # use prompt.input_str as the query to be sent to the api
+            api_response, error = await make_api_call(lang_model.api_code, prompt.input_str)
 
-                #save the response
-                #api_response['generated_text'] per the actual structure of huggingface
-                if api_response:
-                    Responses.objects.create(prompt_id=prompt, lang_model_id=lang_model, response=api_response['generated_text'])
-                else:
-                    error_messages.append(error)
-            #if any of the models have issues, returns a summary message, and a list of error messages for the individual models, otherwise return normally
-            if error_messages:
-                custom_data = {
-                    'status': 'Some models did not return results.',
-                    'errors': error_messages
-                }
-                response.data.update(custom_data)
+            # save the response
+            # api_response['generated_text'] per the actual structure of huggingface
+            if api_response:
+                Responses.objects.create(
+                    prompt_id=prompt, lang_model_id=lang_model, response=api_response['generated_text'])
+            else:
+                error_messages.append(error)
+        # if any of the models have issues, returns a summary message, and a list of error messages for the individual models, otherwise return normally
+        if error_messages:
+            custom_data = {
+                'status': 'Some models did not return results.',
+                'errors': error_messages
+            }
+            response.data.update(custom_data)
 
 
-#allows user to edit individual responses
+# allows user to edit individual responses
 class PromptDetail(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsOwnerOrReadOnly,)
     serializer_class = PromptSerializer
