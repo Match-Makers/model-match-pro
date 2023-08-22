@@ -10,5 +10,9 @@
   "prettier.semi": true,
   "prettier.singleQuote": true,
   "prettier.useTabs": false,
-  "prettier.tabWidth": 2
+  "prettier.tabWidth": 2,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8"
+  },
+  "python.formatting.provider": "none"
 }
