@@ -25,10 +25,19 @@ export default function useModels() {
 
   async function createPrompt(info) {
     try {
-      const options = config();
-      (options.method = 'POST'), (options.body = JSON.stringify(info));
+      const options = {
+        ...config(),
+        method: 'POST',
+        // body: JSON.stringify(info),
+        body: JSON.stringify({
+          ...info,
+          input_str: info.query,
+          api_code: ['gpt2'],
+          user_id: 6,
+        }),
+      };
       await fetch(apiUrl, options);
-      mutate(); // mutate causes complete collection to be refetched
+      // mutate(); // mutate causes complete collection to be refetched
     } catch (err) {
       handleError(err);
     }
@@ -46,8 +55,6 @@ export default function useModels() {
       },
     };
   }
-
-
 
   return {
     models: data,
