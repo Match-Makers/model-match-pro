@@ -35,7 +35,7 @@ export default function useModels() {
           user_id: 6,
         }),
       };
-      console.log(info, options)
+      console.log('createPrompt', { info, options });
       await fetch(apiUrl, options);
       // mutate(); // mutate causes complete collection to be refetched
     } catch (err) {

@@ -37,7 +37,7 @@ export default function useModels() {
   }
 
   function toggleModelActive(modelCode) {
-    console.log({ modelCode, data, selectedModels });
+    console.warn('toggleModelActive', { modelCode, data, selectedModels });
     setSelectedModels((prevSelected) =>
       prevSelected.some((m) => m === modelCode)
         ? prevSelected.filter((m) => m !== modelCode)

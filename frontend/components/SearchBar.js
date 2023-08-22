@@ -4,12 +4,13 @@ import { useState } from 'react';
 
 export default function SearchBar() {
   const { selectedModels } = useModels();
+  console.warn('SearchBar:useModels', [...selectedModels]);
 
   const [text, setText] = useState('');
   const { createPrompt } = usePrompts();
 
   function handleSubmit() {
-    console.log(selectedModels, "I am selected models")
+    console.log(selectedModels, 'I am selected models');
     createPrompt({ input_str: text, lang_models: selectedModels });
   }
   return (

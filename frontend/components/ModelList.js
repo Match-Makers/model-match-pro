@@ -3,6 +3,7 @@ import useModels from '@/hooks/useModels';
 
 export default function ModelList() {
   const { models, selectedModels, toggleModelActive } = useModels();
+  console.warn('ModelList:useModels', [...selectedModels]);
 
   return (
     <ListGroup className="mx-4">
