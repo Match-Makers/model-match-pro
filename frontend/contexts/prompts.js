@@ -3,12 +3,26 @@ import useSWR from 'swr';
 const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/model_match_app/prompts/`;
 
 import { useAuth } from '@/contexts/auth';
-import { useState } from 'react';
+import { createContext, useContext } from 'react';
 
-export default function useModels() {
-  const { tokens } = useAuth();
-  const { data = [], error } = useSWR([apiUrl, tokens], fetchPrompts);
-  const [prompt, setPrompt] = useState([]);
+export const PromptsContext = createContext({
+  prompts: [],
+  error: null,
+  loading: false,
+  createPrompt: () => undefined,
+});
+
+export function usePrompts() {
+  const context = useContext(PromptsContext);
+  if (!context) {
+    throw new Error('You forgot PromptsProvider!');
+  }
+  return context;
+}
+
+export default function PromptsProvider(props) {
+  const { user, tokens } = useAuth();
+  const { prompts = [], error } = useSWR([apiUrl, tokens], fetchPrompts);
 
   async function fetchPrompts() {
     try {
@@ -28,13 +42,12 @@ export default function useModels() {
       const options = {
         ...config(),
         method: 'POST',
-        // body: JSON.stringify(info),
         body: JSON.stringify({
           ...info,
-          lang_models: info.lang_models,
-          user_id: 6,
+          user_id: user.id,
         }),
       };
+      console.log('createPrompt', { info, options });
       await fetch(apiUrl, options);
       // mutate(); // mutate causes complete collection to be refetched
     } catch (err) {
@@ -55,11 +68,16 @@ export default function useModels() {
     };
   }
 
-  return {
-    models: data,
-    prompt,
-    error,
-    loading: tokens && !error && !data,
-    createPrompt,
-  };
+  return (
+    <PromptsContext.Provider
+      value={{
+        prompts,
+        error,
+        loading: tokens && !error && !prompts,
+        createPrompt,
+      }}
+    >
+      {props.children}
+    </PromptsContext.Provider>
+  );
 }

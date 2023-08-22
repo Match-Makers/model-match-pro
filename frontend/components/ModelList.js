@@ -1,5 +1,5 @@
 import { ListGroup, ListGroupItem } from 'reactstrap';
-import useModels from '@/hooks/useModels';
+import { useModels } from '@/contexts/models';
 
 export default function ModelList() {
   const { models, selectedModels, toggleModelActive } = useModels();

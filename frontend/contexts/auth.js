@@ -25,11 +25,8 @@ export function AuthProvider(props) {
     logout,
   });
 
-  console.error('AuthProvider', { ...state });
-
   useEffect(() => {
     const storedTokens = Cookies.get('authTokens');
-    console.warn('AuthProvider:useEffect', { storedTokens });
     if (storedTokens) {
       setState((prevState) => ({
         ...prevState,
@@ -41,7 +38,6 @@ export function AuthProvider(props) {
 
   function getUserFromToken(tokens) {
     const decodedAccess = jwt.decode(tokens.access);
-    console.warn('getUserFromToken', { tokens, decodedAccess });
     return {
       username: decodedAccess.username,
       email: decodedAccess.email,
@@ -61,8 +57,6 @@ export function AuthProvider(props) {
         throw new Error('Login failed');
       }
       const data = await response.json();
-
-      console.warn('login:60', { data });
 
       const newState = {
         tokens: data,

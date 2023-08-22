@@ -1,5 +1,5 @@
-import useModels from '@/hooks/useModels';
-import usePrompts from '@/hooks/usePrompts';
+import { useModels } from '@/contexts/models';
+import { usePrompts } from '@/contexts/prompts';
 import { useState } from 'react';
 
 export default function SearchBar() {
