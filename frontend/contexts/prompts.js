@@ -3,7 +3,7 @@ import useSWR from 'swr';
 const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/model_match_app/prompts/`;
 
 import { useAuth } from '@/contexts/auth';
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 export const PromptsContext = createContext({
   prompts: [],
@@ -23,6 +23,7 @@ export function usePrompts() {
 export default function PromptsProvider(props) {
   const { user, tokens } = useAuth();
   const { prompts = [], error } = useSWR([apiUrl, tokens], fetchPrompts);
+  const [outputs, setOutputs] = useState([]);
 
   async function fetchPrompts() {
     try {
@@ -39,6 +40,7 @@ export default function PromptsProvider(props) {
 
   async function createPrompt(info) {
     try {
+      setOutputs([]);
       const options = {
         ...config(),
         method: 'POST',
@@ -52,14 +54,22 @@ export default function PromptsProvider(props) {
         res.json()
       );
       console.warn({ promptFromBackend });
+      /** Example res:
+       * [{
+        "id": 149,
+        "response": "bugbubh, and the\nother, the _Bubh_, or _Bub_, or",
+        "prompt_id": 312,
+        "lang_model_id": 79
+        }]
+       */
       const responsesFromBackend = await fetch(
         // BUG: Something has a zero index, something does not
         // WORKAROUND: prompt_id + 1 is the primary key of the prompt we generated
         `${apiUrl}${promptFromBackend.id + 1}/responses/`,
         config()
       ).then((res) => res.json());
+      setOutputs(responsesFromBackend);
       console.warn({ responsesFromBackend });
-      // mutate(); // mutate causes complete collection to be refetched
     } catch (err) {
       handleError(err);
     }
@@ -82,6 +92,7 @@ export default function PromptsProvider(props) {
     <PromptsContext.Provider
       value={{
         prompts,
+        outputs,
         error,
         loading: tokens && !error && !prompts,
         createPrompt,
