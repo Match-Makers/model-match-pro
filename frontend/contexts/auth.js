@@ -83,11 +83,11 @@ export function AuthProvider(props) {
     Cookies.remove('authTokens');
   }
 
-  async function register(username, password, email) {
-    const registerUrl = `${baseUrl}/api/register`;
+  async function register(username, password) {
+    const registerUrl = `${baseUrl}/api/signup/`;
     const options = {
       method: 'POST',
-      body: JSON.stringify({ username, password, email }),
+      body: JSON.stringify({ username, password }),
       headers: { 'Content-Type': 'application/json' },
     };
     const response = await fetch(registerUrl, options);
