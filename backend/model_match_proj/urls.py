@@ -18,6 +18,7 @@ from django.urls import include, path
 from rest_framework_simplejwt import views as jwt_views
 from .views import MyTokenObtainPairView
 from django.views.generic.base import TemplateView
+from accounts.views import CustomUserCreate
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -33,4 +34,5 @@ urlpatterns = [
         jwt_views.TokenRefreshView.as_view(),
         name="token_refresh",
     ),
+    path("api/register", CustomUserCreate.as_view(), name="create_user")
 ]

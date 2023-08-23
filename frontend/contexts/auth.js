@@ -84,7 +84,7 @@ export function AuthProvider(props) {
   }
 
   async function register(username, password) {
-    const registerUrl = `${baseUrl}/api/signup/`;
+    const registerUrl = `${baseUrl}/api/register`;
     const options = {
       method: 'POST',
       body: JSON.stringify({ username, password }),
@@ -95,7 +95,7 @@ export function AuthProvider(props) {
       const data = await response.json();
       console.log('Registration Successful', data);
       // Automatically log in the user after successful registration
-      await login(username, password);
+      login(username, password);
     } else {
       console.error('Registration Failed');
     }
