@@ -48,7 +48,17 @@ export default function PromptsProvider(props) {
         }),
       };
       console.log('createPrompt', { info, options });
-      await fetch(apiUrl, options);
+      const promptFromBackend = await fetch(apiUrl, options).then((res) =>
+        res.json()
+      );
+      console.warn({ promptFromBackend });
+      const responsesFromBackend = await fetch(
+        // BUG: Something has a zero index, something does not
+        // WORKAROUND: prompt_id + 1 is the primary key of the prompt we generated
+        `${apiUrl}${promptFromBackend.id + 1}/responses/`,
+        config()
+      ).then((res) => res.json());
+      console.warn({ responsesFromBackend });
       // mutate(); // mutate causes complete collection to be refetched
     } catch (err) {
       handleError(err);
