@@ -26,13 +26,13 @@ if not API_TOKEN:
 HEADERS = {"Authorization": f"Bearer {API_TOKEN}"}
 BASE_API_URL = "https://api-inference.huggingface.co/models/"
 
-def make_api_call(api_code, input_str):
+def make_api_call(api_code, input_str, timeout=360):
     api_url = f"{BASE_API_URL}{api_code}"
     payload = {"inputs": input_str}
 
     print(f"Making API call to {api_url} with query: {input_str}")
     with httpx.Client() as client:
-        response = client.post(api_url, headers=HEADERS, json=payload)
+        response = client.post(api_url, headers=HEADERS, json=payload, timeout=timeout)
     print(f"Received status code {response.status_code} from {api_url}")
     if response.status_code == 302:
         redirect_url = response.headers.get('Location')
