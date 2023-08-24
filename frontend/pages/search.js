@@ -1,7 +1,7 @@
 import SearchBar from '@/components/SearchBar';
 import Header from '@/components/Header';
 import ModelList from '@/components/ModelList';
-import Responses from '@/components/Responses';
+import Outputs from '@/components/Outputs';
 import { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
@@ -21,7 +21,7 @@ export default function Search() {
       <SearchBar />
       <div className="flex">
         <ModelList />
-        <Responses />
+        <Outputs />
       </div>
     </>
   );

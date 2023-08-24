@@ -1,3 +1,6 @@
+import asyncio
+from django.http import JsonResponse
+
 
 from rest_framework.generics import (
     ListAPIView,
@@ -95,7 +98,10 @@ class PromptList(ListCreateAPIView):
             response.data.update(custom_data)
 
         # At this point, api_responses_list contains all the API responses
-        print(api_responses_list)
+
+        print(api_responses_list)  # For debugging purposes
+        # return JsonResponse({'outputs': api_responses_list})
+
 
 
 # allows user to edit individual responses

@@ -23,6 +23,14 @@ export function useModels() {
 
 export default function ModelsProvider(props) {
   const { tokens } = useAuth();
+  /**
+   * Example Models:
+   [{
+        "id": 79,
+        "name": "BLOOM",
+        "api_code": "bigscience/bloom"
+   }]
+   */
   const { data = [], error } = useSWR([apiUrl, tokens], fetchModels);
   const [selectedModels, setSelectedModels] = useState([]);
 

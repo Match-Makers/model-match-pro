@@ -3,12 +3,13 @@ import useSWR from 'swr';
 const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/model_match_app/prompts/`;
 
 import { useAuth } from '@/contexts/auth';
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 export const PromptsContext = createContext({
   prompts: [],
-  error: null,
+  error: false,
   loading: false,
+  isDirty: false,
   createPrompt: () => undefined,
 });
 
@@ -22,7 +23,11 @@ export function usePrompts() {
 
 export default function PromptsProvider(props) {
   const { user, tokens } = useAuth();
-  const { prompts = [], error } = useSWR([apiUrl, tokens], fetchPrompts);
+  const { prompts = [] } = useSWR([apiUrl, tokens], fetchPrompts);
+  const [outputs, setOutputs] = useState([]);
+  const [isDirty, setIsDirty] = useState(false);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function fetchPrompts() {
     try {
@@ -39,6 +44,10 @@ export default function PromptsProvider(props) {
 
   async function createPrompt(info) {
     try {
+      setError(false);
+      setOutputs([]);
+      setIsDirty(true);
+      setLoading(true);
       const options = {
         ...config(),
         method: 'POST',
@@ -48,15 +57,27 @@ export default function PromptsProvider(props) {
         }),
       };
       console.log('createPrompt', { info, options });
-      await fetch(apiUrl, options);
-      // mutate(); // mutate causes complete collection to be refetched
+      const promptFromBackend = await fetch(apiUrl, options).then((res) =>
+        res.json()
+      );
+
+      const responsesFromBackend = await fetch(
+        // BUG: Something has a zero index, something does not
+        // WORKAROUND: prompt_id + 1 is the primary key of the prompt we generated
+        `${apiUrl}${promptFromBackend.id + 1}/responses/`,
+        config()
+      ).then((res) => res.json());
+      setOutputs(responsesFromBackend);
+      console.warn({ responsesFromBackend });
     } catch (err) {
       handleError(err);
     }
+    setLoading(false);
   }
 
   function handleError(err) {
     console.error(`fetchPrompts: ${err}`);
+    setError(true);
   }
 
   function config() {
@@ -72,8 +93,10 @@ export default function PromptsProvider(props) {
     <PromptsContext.Provider
       value={{
         prompts,
+        outputs,
         error,
-        loading: tokens && !error && !prompts,
+        isDirty,
+        loading,
         createPrompt,
       }}
     >
