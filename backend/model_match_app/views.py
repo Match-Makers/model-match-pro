@@ -60,18 +60,23 @@ class PromptList(ListCreateAPIView):
         print("Creating a new prompt...")
         response = super(PromptList, self).create(request, *args, **kwargs)
         if response.status_code == status.HTTP_201_CREATED:
-            self.create_responses(response, request, *args, **kwargs)
+            prompt_id = response.data.get('id')
+            prompt_instance = Prompt.objects.get(pk=prompt_id)
+            print("Fetched Prompt instance:", prompt_instance)
+            self.create_responses(prompt_instance,request, *args, **kwargs)
         return response
 
-    def create_responses(self, response, request, *args, **kwargs):
+    def create_responses(self,prompt,request, *args, **kwargs):
+        print("Type of 'prompt' parameter:", type(prompt))
+        print("Value of 'prompt' parameter:", prompt)
         print("Creating responses for the prompt...")
-        input_str = response.data.get('input_str')
+        input_str = prompt.input_str
         print(input_str)
-        print(response.data)
-        lang_models = response.data.get('lang_models')
+        print(prompt.input_str)
+        lang_models = prompt.lang_models
         print(lang_models)
-        prompt = Prompt.objects.create(
-            user_id_id=self.request.user.id, input_str=input_str, lang_models=lang_models)
+        # prompt = Prompt.objects.create(
+        #     user_id_id=self.request.user.id, input_str=input_str, lang_models=lang_models)
 
         error_messages = []
         api_responses_list = []  # List to accumulate API responses
@@ -95,7 +100,7 @@ class PromptList(ListCreateAPIView):
                 'status': 'Some models did not return results.',
                 'errors': error_messages
             }
-            response.data.update(custom_data)
+            prompt.data.update(custom_data)
 
         # At this point, api_responses_list contains all the API responses
 
