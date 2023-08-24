@@ -82,6 +82,7 @@ class ViewTests(TransactionTestCase):
    #clean up method
     def tearDown(self):
         Prompt.objects.filter(user_id=self.user.id).delete()
+        LLM.objects.filter(name='Test LLM').delete()
         super().tearDown()
 
 

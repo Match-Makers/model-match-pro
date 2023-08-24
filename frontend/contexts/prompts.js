@@ -62,9 +62,7 @@ export default function PromptsProvider(props) {
       );
 
       const responsesFromBackend = await fetch(
-        // BUG: Something has a zero index, something does not
-        // WORKAROUND: prompt_id + 1 is the primary key of the prompt we generated
-        `${apiUrl}${promptFromBackend.id + 1}/responses/`,
+        `${apiUrl}${promptFromBackend.id}/responses/`,
         config()
       ).then((res) => res.json());
       setOutputs(responsesFromBackend);
