@@ -1,33 +1,18 @@
 import Masonry from 'react-responsive-masonry';
-import { Card, CardBody, CardText, Button, CardHeader } from 'reactstrap';
+import {
+  Card,
+  CardBody,
+  CardText,
+  Spinner,
+  Alert,
+  CardHeader,
+} from 'reactstrap';
 import { usePrompts } from '@/contexts/prompts';
 import { useModels } from '@/contexts/models';
-const responses = [
-  {
-    model: 'Bard',
-    response:
-      "Here is a bunch of text that seems really important right now. We would love to have some longer responses so let's keep going.",
-  },
-  {
-    model: 'GPT',
-    response:
-      "Here is a bunch of text that seems really important right now. We would love to have some longer responses so let's keep going.",
-  },
-  {
-    model: 'JerryBot',
-    response:
-      "Here is a bunch of text that seems really important right now. We would love to have some longer responses so let's keep going.",
-  },
-  {
-    model: 'DeioshaBot',
-    response:
-      "Here is a bunch of text that seems really important right now. We would love to have some longer responses so let's keep going.",
-  },
-];
 
 export default function Outputs() {
   const { models, selectedModels } = useModels();
-  const { outputs } = usePrompts();
+  const { outputs, loading, error, isDirty } = usePrompts();
 
   const activeModels = models.filter((m) => selectedModels.includes(m.id));
 
@@ -36,37 +21,32 @@ export default function Outputs() {
     return acc;
   }, {});
 
-  console.warn({ mapModelIdsToOutputs, outputs, selectedModels });
+  if (!isDirty) return null;
+
+  if (loading) return <Spinner />;
+
+  if (error) return <Alert color="danger">Error creating prompt!</Alert>;
 
   return (
     <Masonry gutter="1rem">
       {activeModels.map((model, index) => {
         const output = mapModelIdsToOutputs[model.id];
+        const modelHasError = !output || !output.response;
         return (
           <Card key={index}>
-            <CardHeader>{model.name}</CardHeader>
+            <CardHeader className="font-bold">{model.name}</CardHeader>
             <CardBody>
-              {output ? (
-                <>
-                  <CardText>{output.response}</CardText>
-                  <Button>Retry</Button>
-                </>
+              {modelHasError ? (
+                <Alert color="warning" className="italic">
+                  The model was unable to provide a response
+                </Alert>
               ) : (
-                <CardText>Click Search when ready</CardText>
+                <CardText>{output.response}</CardText>
               )}
             </CardBody>
           </Card>
         );
       })}
-      {/* {responses.map((apiResponse) => (
-        <Card key={apiResponse.model}>
-          <CardHeader>{apiResponse.model}</CardHeader>
-          <CardBody>
-            <CardText>{apiResponse.response}</CardText>
-            <Button>Retry</Button>
-          </CardBody>
-        </Card>
-      ))} */}
     </Masonry>
   );
 }

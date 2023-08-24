@@ -7,8 +7,9 @@ import { createContext, useContext, useState } from 'react';
 
 export const PromptsContext = createContext({
   prompts: [],
-  error: null,
+  error: false,
   loading: false,
+  isDirty: false,
   createPrompt: () => undefined,
 });
 
@@ -22,8 +23,11 @@ export function usePrompts() {
 
 export default function PromptsProvider(props) {
   const { user, tokens } = useAuth();
-  const { prompts = [], error } = useSWR([apiUrl, tokens], fetchPrompts);
+  const { prompts = [] } = useSWR([apiUrl, tokens], fetchPrompts);
   const [outputs, setOutputs] = useState([]);
+  const [isDirty, setIsDirty] = useState(false);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function fetchPrompts() {
     try {
@@ -40,7 +44,10 @@ export default function PromptsProvider(props) {
 
   async function createPrompt(info) {
     try {
+      setError(false);
       setOutputs([]);
+      setIsDirty(true);
+      setLoading(true);
       const options = {
         ...config(),
         method: 'POST',
@@ -53,15 +60,7 @@ export default function PromptsProvider(props) {
       const promptFromBackend = await fetch(apiUrl, options).then((res) =>
         res.json()
       );
-      console.warn({ promptFromBackend });
-      /** Example res:
-       * [{
-        "id": 149,
-        "response": "bugbubh, and the\nother, the _Bubh_, or _Bub_, or",
-        "prompt_id": 312,
-        "lang_model_id": 79
-        }]
-       */
+
       const responsesFromBackend = await fetch(
         // BUG: Something has a zero index, something does not
         // WORKAROUND: prompt_id + 1 is the primary key of the prompt we generated
@@ -73,10 +72,12 @@ export default function PromptsProvider(props) {
     } catch (err) {
       handleError(err);
     }
+    setLoading(false);
   }
 
   function handleError(err) {
     console.error(`fetchPrompts: ${err}`);
+    setError(true);
   }
 
   function config() {
@@ -94,7 +95,8 @@ export default function PromptsProvider(props) {
         prompts,
         outputs,
         error,
-        loading: tokens && !error && !prompts,
+        isDirty,
+        loading,
         createPrompt,
       }}
     >
