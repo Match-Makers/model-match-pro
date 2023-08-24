@@ -1,22 +1,26 @@
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
+
 
 export default function SignUpForm({ onRegister}) {
-  
+
+  const router = useRouter();
+
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setErrorMessage('Passwords do not match');
       return;
     }
     onRegister(userName, password);
-  };
-  
+    router.push("/search"); // auto-redirect to logged-in search page after signup
+  }
   return (
     <form
       className="flex flex-col items-center max-w-2xl mx-auto my-6 rounded-md bg-slate-400"
