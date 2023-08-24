@@ -22,6 +22,7 @@ class CustomUserCreate(APIView):
     # method is invoked when the user makes a POST
     # request to api/ register
     def post(self, request):
+        print("CustomerUserCreate post")
         # use serializer to validate it
         serializer = CustomUserSerializer(data=request.data)
         if serializer.is_valid():

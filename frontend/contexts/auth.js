@@ -83,11 +83,11 @@ export function AuthProvider(props) {
     Cookies.remove('authTokens');
   }
 
-  async function register(username, password, email) {
+  async function register(username, password) {
     const registerUrl = `${baseUrl}/api/register`;
     const options = {
       method: 'POST',
-      body: JSON.stringify({ username, password, email }),
+      body: JSON.stringify({ username, password }),
       headers: { 'Content-Type': 'application/json' },
     };
     const response = await fetch(registerUrl, options);
@@ -95,7 +95,7 @@ export function AuthProvider(props) {
       const data = await response.json();
       console.log('Registration Successful', data);
       // Automatically log in the user after successful registration
-      await login(username, password);
+      login(username, password);
     } else {
       console.error('Registration Failed');
     }
