@@ -9,13 +9,27 @@ export default function Header() {
     window.location.href = '/about';
   };
 
+  const handleSearchClick = () => {
+    window.location.href = '/search';
+  };
+
+  const isOnSearchPage = window.location.pathname === '/search';
+  const isOnAboutPage = window.location.pathname === '/about';
+
   return (
     <BootstrapHeader>
       <h1>Model Match Pro</h1>
       <div>
-        <button className="btn btn-secondary" onClick={handleAboutClick}>
-          About
-        </button>
+        {!isOnAboutPage && (
+          <button className="btn btn-secondary" onClick={handleAboutClick}>
+            About
+          </button>
+        )}
+        {user && user.id && !isOnSearchPage && (
+          <button className="btn btn-secondary" onClick={handleSearchClick}>
+            Home
+          </button>
+        )}
         {user && user.id && (
           <button className="btn btn-secondary">History</button>
         )}

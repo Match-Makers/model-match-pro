@@ -81,3 +81,6 @@ export default function SignUpForm({ onRegister}) {
     </form>
   );
 }
+
+
+
