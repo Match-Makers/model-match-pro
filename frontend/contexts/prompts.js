@@ -23,12 +23,12 @@ export function usePrompts() {
 
 export default function PromptsProvider(props) {
   const { user, tokens } = useAuth();
-  const { prompts = [] } = useSWR([apiUrl, tokens], fetchPrompts);
+  const { data: prompts = [], mutate } = useSWR([apiUrl, tokens], fetchPrompts);
   const [outputs, setOutputs] = useState([]);
   const [isDirty, setIsDirty] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  console.warn('PromptsProvider', { prompts });
   async function fetchPrompts() {
     try {
       if (!tokens) {
@@ -36,6 +36,7 @@ export default function PromptsProvider(props) {
       }
       const response = await fetch(apiUrl, config());
       const responseJSON = await response.json();
+      console.warn('fetchPrompts', { responseJSON });
       return responseJSON;
     } catch (err) {
       handleError(err);
@@ -89,6 +90,18 @@ export default function PromptsProvider(props) {
     };
   }
 
+  async function deletePrompt(id) {
+    try {
+      const url = apiUrl + id;
+      const options = config();
+      options.method = 'DELETE';
+      await fetch(url, options);
+      mutate();
+    } catch (err) {
+      handleError(err);
+    }
+  }
+
   return (
     <PromptsContext.Provider
       value={{
@@ -98,6 +111,7 @@ export default function PromptsProvider(props) {
         isDirty,
         loading,
         createPrompt,
+        deletePrompt,
       }}
     >
       {props.children}
