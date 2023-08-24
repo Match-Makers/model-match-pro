@@ -69,6 +69,63 @@ export default function AboutUs() {
     },
   ];
 
+  const creditContainerStyle = {
+    marginTop: '40px',
+    textAlign: 'center',
+    fontSize: '16px',
+  };
+  
+  const models = [
+    {
+      name: 'gpt2',
+      description: '',
+      link: '',
+    }, 
+    {
+      name: 'Neo-125M',
+      description: '',
+      link: '',
+    }, 
+    {
+      name: 'gpt2-XL',
+      description: '',
+      link: '',
+    }, 
+    {
+      name: '',
+      description: '',
+      link: '',
+    }, 
+    {
+      name: '',
+      description: '',
+      link: '',
+    }, 
+    {
+      name: '',
+      description: '',
+      link: '',
+    }, 
+    {
+      name: '',
+      description: '',
+      link: '',
+    }, 
+    {
+      name: '',
+      description: '',
+      link: '',
+    }, 
+    {
+      name: '',
+      description: '',
+      link: '',
+    }, 
+    
+  ]
+    
+  
+
   return (
     <div>
       <h2 style={centeredStyle}>About Us</h2>
@@ -105,6 +162,9 @@ export default function AboutUs() {
             </p>
           </div>
         ))}
+      </div>
+      <div style={creditContainerStyle}>
+        <p>Special thanks to <a href="https://huggingface.co/" target="_blank" rel="noopener noreferrer" style={linkStyle}>Hugging Face</a> for their incredible api that powered our application.</p>
       </div>
     </div>
   );
