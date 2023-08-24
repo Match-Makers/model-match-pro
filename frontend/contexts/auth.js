@@ -20,19 +20,25 @@ export function AuthProvider(props) {
     tokens: null,
     user: null,
     error: undefined,
-    register,
-    login,
-    logout,
   });
 
   useEffect(() => {
-    const storedTokens = Cookies.get('authTokens');
-    if (storedTokens) {
-      setState((prevState) => ({
-        ...prevState,
-        tokens: JSON.parse(storedTokens),
-        user: getUserFromToken(JSON.parse(storedTokens)),
-      }));
+    try {
+      const storedTokens = Cookies.get('authTokens');
+      if (storedTokens) {
+        const user = getUserFromToken(JSON.parse(storedTokens));
+        if (!user.id) {
+          throw new Error('No authenticated user found');
+        }
+        setState((prevState) => ({
+          ...prevState,
+          tokens: JSON.parse(storedTokens),
+          user,
+        }));
+      }
+    } catch (err) {
+      console.error(err);
+      setState((prevState) => ({ ...prevState, tokens: null, user: null }));
     }
   }, []);
 
@@ -102,6 +108,15 @@ export function AuthProvider(props) {
   }
 
   return (
-    <AuthContext.Provider value={state}>{props.children}</AuthContext.Provider>
+    <AuthContext.Provider
+      value={{
+        ...state,
+        register,
+        login,
+        logout,
+      }}
+    >
+      {props.children}
+    </AuthContext.Provider>
   );
 }
