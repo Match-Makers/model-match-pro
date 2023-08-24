@@ -71,13 +71,13 @@ export default function PromptsProvider(props) {
       console.warn({ responsesFromBackend });
     } catch (err) {
       handleError(err);
+      setError(true);
     }
     setLoading(false);
   }
 
   function handleError(err) {
     console.error(`fetchPrompts: ${err}`);
-    setError(true);
   }
 
   function config() {

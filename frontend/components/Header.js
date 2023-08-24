@@ -1,6 +1,7 @@
 import { Navbar as BootstrapHeader } from 'reactstrap';
 import { useContext } from 'react';
 import { AuthContext } from '@/contexts/auth';
+import Link from 'next/link';
 
 export default function Header() {
   const { user, logout } = useContext(AuthContext);
@@ -8,9 +9,13 @@ export default function Header() {
     <BootstrapHeader>
       <h1>Model Match Pro</h1>
       <div>
-        <button className="btn btn-secondary">About</button>
+        <Link href="/about">
+          <button className="btn btn-secondary">About</button>
+        </Link>
         {user && user.id && (
-          <button className="btn btn-secondary">History</button>
+          <Link href="/history">
+            <button className="btn btn-secondary">History</button>
+          </Link>
         )}
         {user && user.id && (
           <button className="btn btn-secondary" onClick={() => logout()}>
