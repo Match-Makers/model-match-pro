@@ -61,7 +61,6 @@ export default function ModelsProvider(props) {
   }
 
   function toggleModelActive(modelCode) {
-    console.warn('toggleModelActive', { modelCode, data, selectedModels });
     setSelectedModels((prevSelected) =>
       prevSelected.some((m) => m === modelCode)
         ? prevSelected.filter((m) => m !== modelCode)

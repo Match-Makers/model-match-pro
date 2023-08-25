@@ -21,6 +21,16 @@ export function usePrompts() {
   return context;
 }
 
+/** Example Prompt:
+{
+  "id": 79,
+  "input_str": "asWhat is the meaning of life?aassaasasasassasdssdasassasasas",
+  "request_time": "2023-08-22T03:55:35.966303Z",
+  "lang_models": [],
+  "user_id": 6
+}
+*/
+
 export default function PromptsProvider(props) {
   const { user, tokens } = useAuth();
   const { data: prompts = [], mutate } = useSWR([apiUrl, tokens], fetchPrompts);

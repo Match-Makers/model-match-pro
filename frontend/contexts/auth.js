@@ -98,6 +98,7 @@ export function AuthProvider(props) {
       user: null,
     });
     Cookies.remove('authTokens');
+    window.location.reload();
   }
 
   async function register(username, password) {
