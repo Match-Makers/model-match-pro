@@ -13,7 +13,7 @@ export default function Outputs({ outputs, loading, error }) {
 
   if (loading) return <Spinner />;
 
-  if (error) return <Alert color="danger">Error creating prompt!</Alert>;
+  if (error) return <Alert color="danger">Error retrieving prompt!</Alert>;
 
   return (
     <Masonry gutter="1rem">
