@@ -14,12 +14,6 @@ export default function Search() {
   const { push } = useRouter();
   const { models, selectedModels } = useModels();
   const { outputs, loading, error, isDirty } = usePrompts();
-  const activeModels = models.filter((m) => selectedModels.includes(m.id));
-
-  const mapModelIdsToOutputs = selectedModels.reduce((acc, modelId) => {
-    acc[modelId] = outputs.find((o) => o.lang_model_id === modelId);
-    return acc;
-  }, {});
 
   const modelsWithResponses = models
     .filter((m) => selectedModels.includes(m.id))
@@ -39,11 +33,13 @@ export default function Search() {
       <SearchBar />
       <div className="flex">
         <ModelList />
-        <Outputs
-          outputs={modelsWithResponses}
-          loading={loading}
-          error={error}
-        />
+        {isDirty && (
+          <Outputs
+            outputs={modelsWithResponses}
+            loading={loading}
+            error={error}
+          />
+        )}
       </div>
     </>
   );

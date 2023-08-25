@@ -25,16 +25,7 @@ const DATE_OPTIONS = {
   second: '2-digit', // mm (2-digit minute)
 };
 
-export function HistoryItem({
-  deletePrompt,
-  id,
-  input_str,
-  request_time,
-  lang_models,
-  user_id,
-  // output -- MUST FETCH WHEN OPENED
-  ...props
-}) {
+export function HistoryItem({ deletePrompt, id, input_str, request_time }) {
   const { tokens } = useAuth();
   const { models } = useModels();
 
@@ -82,15 +73,6 @@ export function HistoryItem({
     }
   }, [isOpen]);
 
-  console.warn('HistoryItem', {
-    id,
-    input_str,
-    request_time,
-    outputs,
-    deletePrompt: typeof deletePrompt,
-  });
-
-  //onClick={() => deletePrompt(id)}>
   return (
     <ListGroupItem>
       <div className="flex flex-row justify-between" onClick={toggle}>
@@ -111,25 +93,8 @@ export function HistoryItem({
 }
 
 export default function History() {
-  const { models } = useModels();
-  const {
-    prompts,
-    outputs,
-    loading: promptsLoading,
-    error: promptsError,
-    deletePrompt,
-  } = usePrompts();
-  const { history, loading, error } = useHistory();
-  console.warn('History:', {
-    prompts,
-    history,
-    models,
-    outputs,
-    loading,
-    error,
-    promptsError,
-    promptsLoading,
-  });
+  const { prompts, deletePrompt } = usePrompts();
+  const { loading, error } = useHistory();
 
   if (loading) return <Spinner />;
 

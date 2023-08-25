@@ -16,7 +16,7 @@ export default function App({ Component, pageProps }) {
     // Simulate a 3-second loading period
     setTimeout(() => {
       setIsLoading(false);
-    }, 1);
+    }, 3000);
   }, []);
 
   // Custom CSS for loader
