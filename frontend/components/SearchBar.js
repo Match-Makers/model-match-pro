@@ -3,7 +3,7 @@ import { usePrompts } from '@/contexts/prompts';
 import { useSearch } from '@/contexts/search';
 import { Form, FormGroup, Input, Label, Button } from 'reactstrap';
 
-export default function SearchBar() {
+export default function SearchBar(props) {
   const { selectedModels } = useModels();
 
   const { searchText, setSearchText } = useSearch();
@@ -27,6 +27,7 @@ export default function SearchBar() {
           autoFocus
           className="resize-y"
         />
+        {props.children}
         <Button
           color="primary"
           className="w-full my-2"
