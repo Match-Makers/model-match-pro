@@ -31,7 +31,7 @@ export default function Search() {
     <>
       <Header />
       <SearchBar />
-      <div className="flex">
+      <div className="flex flex-col">
         <ModelList />
         {isDirty && (
           <Outputs
