@@ -42,3 +42,5 @@
     - http://localhost:8000/ - home
     - http://localhost:8000/admin/ - admin panel
     - http://localhost:8000/api/v1/model_match_app
+- To run tests: 
+  - python manage.py test model_match_app.tests
