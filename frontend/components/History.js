@@ -11,6 +11,8 @@ import { useModels } from '@/contexts/models';
 import Outputs from './Outputs';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/auth';
+import { useSearch } from '@/contexts/search';
+import { useRouter } from 'next/router';
 
 const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/model_match_app/prompts/`;
 
@@ -27,7 +29,8 @@ const DATE_OPTIONS = {
 export function HistoryItem({ deletePrompt, id, input_str, request_time }) {
   const { tokens } = useAuth();
   const { models } = useModels();
-
+  const { searchText, setSearchText } = useSearch();
+  const { push } = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [outputs, setOutputs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,6 +41,11 @@ export function HistoryItem({ deletePrompt, id, input_str, request_time }) {
   const handleDelete = (e) => {
     e.stopPropagation();
     deletePrompt(id);
+  };
+
+  const handleRetry = () => {
+    setSearchText(input_str);
+    push('/search');
   };
 
   function config() {
@@ -80,9 +88,14 @@ export function HistoryItem({ deletePrompt, id, input_str, request_time }) {
             promptDate
           )}: ${input_str}`}
         </div>
-        <Button size="sm" onClick={handleDelete}>
-          Delete
-        </Button>
+        <div>
+          <Button size="sm" onClick={handleRetry}>
+            Retry
+          </Button>
+          <Button size="sm" onClick={handleDelete}>
+            Delete
+          </Button>
+        </div>
       </div>
       <Collapse isOpen={isOpen}>
         <Outputs error={error} loading={loading} outputs={outputs} />
