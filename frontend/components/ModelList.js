@@ -5,7 +5,7 @@ export default function ModelList() {
   const { models, selectedModels, toggleModelActive } = useModels();
 
   return (
-    <ListGroup horizontal className="mx-auto">
+    <ListGroup horizontal className="mx-auto my-4">
       {models.map((model) => (
         <ListGroupItem
           href="#"

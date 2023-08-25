@@ -11,7 +11,7 @@ import {
 export default function Outputs({ outputs, loading, error }) {
   // if (!isDirty) return null;
 
-  if (loading) return <Spinner />;
+  if (loading) return <Spinner className="m-auto" />;
 
   if (error) return <Alert color="danger">Error retrieving prompt!</Alert>;
 

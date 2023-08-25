@@ -1,6 +1,7 @@
 import { useModels } from '@/contexts/models';
 import { usePrompts } from '@/contexts/prompts';
 import { useSearch } from '@/contexts/search';
+import { Form, FormGroup, Input, Label, Button } from 'reactstrap';
 
 export default function SearchBar() {
   const { selectedModels } = useModels();
@@ -12,26 +13,30 @@ export default function SearchBar() {
     createPrompt({ input_str: searchText, lang_models: selectedModels });
   }
   return (
-    <div className="flex flex-col max-w-2xl max-h-screen mx-auto my-4">
-      <div className="input-group">
-        <input
+    <Form>
+      <FormGroup className="max-w-lg gap-1 mx-auto my-2">
+        <Label for="prompt">Enter your prompt</Label>
+        <Input
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
-          type="text"
-          className="form-control"
-          placeholder="Enter your prompt"
+          type="textarea"
+          // type="text"
+          name="prompt"
+          id="prompt"
+          rows={5}
+          autofocus
+          className="resize-y"
         />
-        <div className="input-group-append">
-          <button
-            className="btn btn-secondary"
-            onClick={handleSubmit}
-            type="button"
-            disabled={!selectedModels.length}
-          >
-            Search
-          </button>
-        </div>
-      </div>
-    </div>
+        <Button
+          color="primary"
+          className="my-2"
+          onClick={handleSubmit}
+          type="button"
+          disabled={!selectedModels.length}
+        >
+          Search
+        </Button>
+      </FormGroup>
+    </Form>
   );
 }
