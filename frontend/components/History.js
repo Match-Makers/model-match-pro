@@ -8,7 +8,6 @@ import {
 } from 'reactstrap';
 import { usePrompts } from '@/contexts/prompts';
 import { useModels } from '@/contexts/models';
-import { useHistory } from '@/contexts/history';
 import Outputs from './Outputs';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/auth';
@@ -93,8 +92,7 @@ export function HistoryItem({ deletePrompt, id, input_str, request_time }) {
 }
 
 export default function History() {
-  const { prompts, deletePrompt } = usePrompts();
-  const { loading, error } = useHistory();
+  const { prompts, deletePrompt, loading, error } = usePrompts();
 
   if (loading) return <Spinner />;
 

@@ -38,7 +38,6 @@ export default function PromptsProvider(props) {
   const [isDirty, setIsDirty] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  console.warn('PromptsProvider', { prompts });
   async function fetchPrompts() {
     try {
       if (!tokens) {
@@ -46,7 +45,6 @@ export default function PromptsProvider(props) {
       }
       const response = await fetch(apiUrl, config());
       const responseJSON = await response.json();
-      console.warn('fetchPrompts', { responseJSON });
       return responseJSON;
     } catch (err) {
       handleError(err);
@@ -67,7 +65,6 @@ export default function PromptsProvider(props) {
           user_id: user.id,
         }),
       };
-      console.log('createPrompt', { info, options });
       const promptFromBackend = await fetch(apiUrl, options).then((res) =>
         res.json()
       );
