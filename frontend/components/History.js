@@ -81,7 +81,7 @@ export function HistoryItem({ deletePrompt, id, input_str, request_time }) {
   }, [isOpen]);
 
   return (
-    <ListGroupItem>
+    <ListGroupItem color={isOpen ? 'info' : undefined}>
       <div className="flex flex-row justify-between" onClick={toggle}>
         <div>
           {`${new Intl.DateTimeFormat('en-US', DATE_OPTIONS).format(
@@ -112,7 +112,7 @@ export default function History() {
   if (error) return <Alert color="danger">Error loading prompt history!</Alert>;
 
   return (
-    <ListGroup>
+    <ListGroup flush className="max-w-screen-xl mx-auto">
       {prompts.reverse().map((prompt, i) => {
         return <HistoryItem key={i} {...prompt} deletePrompt={deletePrompt} />;
       })}

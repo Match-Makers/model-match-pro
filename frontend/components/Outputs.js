@@ -9,14 +9,12 @@ import {
 } from 'reactstrap';
 
 export default function Outputs({ outputs, loading, error }) {
-  // if (!isDirty) return null;
-
   if (loading) return <Spinner className="m-auto" />;
 
   if (error) return <Alert color="danger">Error retrieving prompt!</Alert>;
 
   return (
-    <Masonry gutter="1rem">
+    <Masonry gutter="1rem" className="max-w-screen-xl mx-auto">
       {outputs.map((model, index) => {
         const { output } = model;
         const modelHasError = !output || !output.response;
