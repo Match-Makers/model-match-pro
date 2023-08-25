@@ -20,7 +20,11 @@
 
 ## Links
 
-- deployed application: ______TBD______
+- [Model Match Pro](https://model-match-pro.vercel.app/)
+
+## Frontend Set-up
+- run local environment: 
+  - npm run dev
 
 ## Backend Set-up
 
@@ -44,3 +48,8 @@
     - http://localhost:8000/api/v1/model_match_app
 - To run tests: 
   - python manage.py test model_match_app.tests
+- To run coverage.py: 
+  - coverage run --source=model_match_app manage.py test model_match_app.tests
+- To generate the coverage report: 
+  - coverage report
+

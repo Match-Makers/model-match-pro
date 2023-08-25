@@ -1,22 +1,22 @@
 import { useModels } from '@/contexts/models';
 import { usePrompts } from '@/contexts/prompts';
-import { useState } from 'react';
+import { useSearch } from '@/contexts/search';
 
 export default function SearchBar() {
   const { selectedModels } = useModels();
 
-  const [text, setText] = useState('');
+  const { searchText, setSearchText } = useSearch();
   const { createPrompt } = usePrompts();
 
   function handleSubmit() {
-    createPrompt({ input_str: text, lang_models: selectedModels });
+    createPrompt({ input_str: searchText, lang_models: selectedModels });
   }
   return (
     <div className="flex flex-col max-w-2xl max-h-screen mx-auto my-4">
       <div className="input-group">
         <input
-          value={text}
-          onChange={(e) => setText(e.target.value)}
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
           type="text"
           className="form-control"
           placeholder="Enter your prompt"
@@ -26,6 +26,7 @@ export default function SearchBar() {
             className="btn btn-secondary"
             onClick={handleSubmit}
             type="button"
+            disabled={!selectedModels.length}
           >
             Search
           </button>

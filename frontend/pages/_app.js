@@ -6,7 +6,7 @@ import 'bootswatch/dist/journal/bootstrap.min.css';
 import { AuthProvider } from '@/contexts/auth';
 import ModelsProvider from '@/contexts/models';
 import PromptsProvider from '@/contexts/prompts';
-import HistoryProvider from '@/contexts/history';
+import SearchProvider from '@/contexts/search';
 
 export default function App({ Component, pageProps }) {
   // Loading state
@@ -30,7 +30,7 @@ export default function App({ Component, pageProps }) {
     <AuthProvider>
       <ModelsProvider>
         <PromptsProvider>
-          <HistoryProvider>
+          <SearchProvider>
             {isLoading ? (
               // If page is still loading, display the PacmanLoader
               <PacmanLoader
@@ -45,7 +45,7 @@ export default function App({ Component, pageProps }) {
                 <Component {...pageProps} />
               </>
             )}
-          </HistoryProvider>
+          </SearchProvider>
         </PromptsProvider>
       </ModelsProvider>
     </AuthProvider>

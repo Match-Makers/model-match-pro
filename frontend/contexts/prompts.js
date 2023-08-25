@@ -21,6 +21,16 @@ export function usePrompts() {
   return context;
 }
 
+/** Example Prompt:
+{
+  "id": 79,
+  "input_str": "asWhat is the meaning of life?aassaasasasassasdssdasassasasas",
+  "request_time": "2023-08-22T03:55:35.966303Z",
+  "lang_models": [],
+  "user_id": 6
+}
+*/
+
 export default function PromptsProvider(props) {
   const { user, tokens } = useAuth();
   const { data: prompts = [], mutate } = useSWR([apiUrl, tokens], fetchPrompts);
@@ -28,7 +38,6 @@ export default function PromptsProvider(props) {
   const [isDirty, setIsDirty] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  console.warn('PromptsProvider', { prompts });
   async function fetchPrompts() {
     try {
       if (!tokens) {
@@ -36,7 +45,6 @@ export default function PromptsProvider(props) {
       }
       const response = await fetch(apiUrl, config());
       const responseJSON = await response.json();
-      console.warn('fetchPrompts', { responseJSON });
       return responseJSON;
     } catch (err) {
       handleError(err);
@@ -57,7 +65,6 @@ export default function PromptsProvider(props) {
           user_id: user.id,
         }),
       };
-      console.log('createPrompt', { info, options });
       const promptFromBackend = await fetch(apiUrl, options).then((res) =>
         res.json()
       );

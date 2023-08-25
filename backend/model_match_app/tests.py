@@ -79,7 +79,15 @@ class ViewTests(TransactionTestCase):
         response = self.client.get(reverse('llm_list'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-   #clean up method
+    def test_delete_prompt(self):
+        self.client.force_authenticate(user=self.user)
+        response = self.client.delete(reverse('prompt_detail', kwargs={'pk': self.prompt.id}))
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(Prompt.objects.filter(id=self.prompt.id).exists())
+        self.assertFalse(Responses.objects.filter(prompt_id=self.prompt.id).exists())
+
+    #clean up method
     def tearDown(self):
         Prompt.objects.filter(user_id=self.user.id).delete()
         LLM.objects.filter(name='Test LLM').delete()
@@ -110,4 +118,14 @@ class HuggingFaceApiCallTestCase(TestCase):
             assert 'generated_text' in response[0]
             assert response[0][
                    'generated_text'] == "can you please let us know more details about your experience?`,\n    },\n    {\n      question:"
+
+    def test_invalid_hugging_face_api_call(self):
+        with requests_mock.Mocker() as mock:
+            mock.post("https://api-inference.huggingface.co/models/Deci/InvalidCode", json={"error": "Invalid code"}, status_code=400)
+            api_code = "Deci/InvalidCode"
+            query = "can you provide more information?"
+            response, error = make_api_call(api_code, query)
+            assert response is None
+            assert error is not None
+
 

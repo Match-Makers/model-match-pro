@@ -9,7 +9,6 @@ export default function HistoryPage() {
   const { user } = useContext(AuthContext);
   const { push } = useRouter();
   useEffect(() => {
-    console.error('HistoryPage', { user });
     if (!user || !user.id) {
       push('/login');
     }

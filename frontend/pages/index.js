@@ -2,6 +2,8 @@ import Header from '@/components/Header';
 import Image from 'next/image';
 import backsplash from '../img/backsplash.jpeg';
 
+
+
 const containerStyle = {
   position: 'relative',
   width: '100vw',
@@ -25,6 +27,8 @@ const imageStyle = {
 const paragraphStyle = {
   fontWeight: 'bold',
 };
+
+
 
 export default function Home() {
   return (
