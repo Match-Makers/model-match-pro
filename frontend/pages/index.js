@@ -1,7 +1,6 @@
 import Header from '@/components/Header';
 import Image from 'next/image';
 import backsplash from '../img/backsplash.jpeg';
-import SignIn from '@/components/SignIn';
 
 
 
