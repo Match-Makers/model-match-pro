@@ -129,6 +129,16 @@ class ResponseList(ListAPIView):  # lists responses specific to a single prompt
         return Responses.objects.filter(prompt_id__user_id=user, prompt_id=prompt_pk)
 
 
+class HistoryList(ListAPIView):  # lists responses specific to a single prompt
+    permission_classes = (IsOwnerOrReadOnly,)
+    serializer_class = ResponsesSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        prompt_pk = self.kwargs['pk']
+        return Responses.objects.filter(prompt_id__user_id=user)
+
+
 class LLMList(ListAPIView):
     queryset = LLM.objects.all()
     serializer_class = LLMSerializer

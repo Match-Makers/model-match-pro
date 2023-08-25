@@ -5,7 +5,9 @@ import Cookies from 'js-cookie';
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 const tokenUrl = `${baseUrl}/api/token/`;
 
-export const AuthContext = createContext({});
+export const AuthContext = createContext({
+  loading: true,
+});
 
 export function useAuth() {
   const auth = useContext(AuthContext);
@@ -20,6 +22,7 @@ export function AuthProvider(props) {
     tokens: null,
     user: null,
     error: undefined,
+    loading: true,
   });
 
   useEffect(() => {
@@ -34,11 +37,19 @@ export function AuthProvider(props) {
           ...prevState,
           tokens: JSON.parse(storedTokens),
           user,
+          loading: false,
         }));
+      } else {
+        setState((prevState) => ({ ...prevState, loading: false }));
       }
     } catch (err) {
       console.error(err);
-      setState((prevState) => ({ ...prevState, tokens: null, user: null }));
+      setState((prevState) => ({
+        ...prevState,
+        tokens: null,
+        user: null,
+        loading: false,
+      }));
     }
   }, []);
 
@@ -116,7 +127,7 @@ export function AuthProvider(props) {
         logout,
       }}
     >
-      {props.children}
+      {!state.loading && props.children}
     </AuthContext.Provider>
   );
 }

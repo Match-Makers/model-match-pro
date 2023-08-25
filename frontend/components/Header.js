@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Navbar as BootstrapHeader } from 'reactstrap';
 import { AuthContext } from '@/contexts/auth';
+import Link from 'next/link';
 
 export default function Header() {
   const { user, logout } = useContext(AuthContext);
@@ -31,7 +32,9 @@ export default function Header() {
           </button>
         )}
         {user && user.id && (
-          <button className="btn btn-secondary">History</button>
+          <Link href="/history">
+            <button className="btn btn-secondary">History</button>
+          </Link>
         )}
         {user && user.id && (
           <button className="btn btn-secondary" onClick={() => logout()}>
