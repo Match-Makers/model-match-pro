@@ -26,7 +26,7 @@ if not API_TOKEN:
 HEADERS = {"Authorization": f"Bearer {API_TOKEN}"}
 BASE_API_URL = "https://api-inference.huggingface.co/models/"
 
-def make_api_call(api_code, input_str, timeout=360):
+def make_api_call(api_code, input_str, timeout=500):
     api_url = f"{BASE_API_URL}{api_code}"
     payload = {"inputs": input_str}
 
@@ -100,7 +100,7 @@ class PromptList(ListCreateAPIView):
                 'status': 'Some models did not return results.',
                 'errors': error_messages
             }
-            prompt.data.update(custom_data)
+            prompt.error_messages=custom_data
 
         # At this point, api_responses_list contains all the API responses
 
