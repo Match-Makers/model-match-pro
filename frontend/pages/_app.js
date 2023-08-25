@@ -39,7 +39,8 @@ export default function App({ Component, pageProps }) {
             {isLoading ? (
               // If page is still loading, display the PacmanLoader
               <PacmanLoader
-                color={'#36D7B7'}
+                className="h-full mx-auto mt-5"
+                color={'var(--bs-info)'}
                 isLoading={isLoading}
                 css={override}
                 size={150}

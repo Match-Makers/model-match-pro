@@ -29,7 +29,7 @@ const DATE_OPTIONS = {
 export function HistoryItem({ deletePrompt, id, input_str, request_time }) {
   const { tokens } = useAuth();
   const { models } = useModels();
-  const { searchText, setSearchText } = useSearch();
+  const { setSearchText } = useSearch();
   const { push } = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [outputs, setOutputs] = useState([]);
@@ -110,6 +110,9 @@ export default function History() {
   if (loading) return <Spinner />;
 
   if (error) return <Alert color="danger">Error loading prompt history!</Alert>;
+
+  if (!prompts.length)
+    return <Alert color="warning">No prompts exist yet!</Alert>;
 
   return (
     <ListGroup flush className="max-w-screen-xl mx-auto">
