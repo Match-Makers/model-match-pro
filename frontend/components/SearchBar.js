@@ -24,12 +24,12 @@ export default function SearchBar() {
           name="prompt"
           id="prompt"
           rows={5}
-          autofocus
+          autoFocus
           className="resize-y"
         />
         <Button
           color="primary"
-          className="my-2"
+          className="w-full my-2"
           onClick={handleSubmit}
           type="button"
           disabled={!selectedModels.length}
