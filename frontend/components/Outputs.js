@@ -7,21 +7,9 @@ import {
   Alert,
   CardHeader,
 } from 'reactstrap';
-import { usePrompts } from '@/contexts/prompts';
-import { useModels } from '@/contexts/models';
 
-export default function Outputs() {
-  const { models, selectedModels } = useModels();
-  const { outputs, loading, error, isDirty } = usePrompts();
-
-  const activeModels = models.filter((m) => selectedModels.includes(m.id));
-
-  const mapModelIdsToOutputs = selectedModels.reduce((acc, modelId) => {
-    acc[modelId] = outputs.find((o) => o.lang_model_id === modelId);
-    return acc;
-  }, {});
-
-  if (!isDirty) return null;
+export default function Outputs({ outputs, loading, error }) {
+  // if (!isDirty) return null;
 
   if (loading) return <Spinner />;
 
@@ -29,8 +17,8 @@ export default function Outputs() {
 
   return (
     <Masonry gutter="1rem">
-      {activeModels.map((model, index) => {
-        const output = mapModelIdsToOutputs[model.id];
+      {outputs.map((model, index) => {
+        const { output } = model;
         const modelHasError = !output || !output.response;
         return (
           <Card key={index}>
