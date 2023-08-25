@@ -1,6 +1,9 @@
 import Header from '@/components/Header';
 import Image from 'next/image';
 import backsplash from '../img/backsplash.jpeg';
+import SignIn from '@/components/SignIn';
+
+
 
 const containerStyle = {
   position: 'relative',
@@ -25,6 +28,8 @@ const imageStyle = {
 const paragraphStyle = {
   fontWeight: 'bold',
 };
+
+
 
 export default function Home() {
   return (
