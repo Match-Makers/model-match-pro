@@ -1,7 +1,3 @@
-import asyncio
-from django.http import JsonResponse
-
-
 from rest_framework.generics import (
     ListAPIView,
     ListCreateAPIView,
@@ -37,6 +33,8 @@ def make_api_call(api_code, input_str, timeout=500):
     if response.status_code == 302:
         redirect_url = response.headers.get('Location')
         print("Redirecting to:", redirect_url)
+        error_message = f"Redirecting to: {redirect_url}"
+        return None, error_message
 
     if response.status_code != 200:
         error_message = f"API call failed for model {api_code} with status code {response.status_code}: {response.text}"
@@ -75,8 +73,6 @@ class PromptList(ListCreateAPIView):
         print(prompt.input_str)
         lang_models = prompt.lang_models
         print(lang_models)
-        # prompt = Prompt.objects.create(
-        #     user_id_id=self.request.user.id, input_str=input_str, lang_models=lang_models)
 
         error_messages = []
         api_responses_list = []  # List to accumulate API responses
@@ -104,10 +100,7 @@ class PromptList(ListCreateAPIView):
 
         # At this point, api_responses_list contains all the API responses
 
-        print(api_responses_list)  # For debugging purposes
-        # return JsonResponse({'outputs': api_responses_list})
-
-
+        print(api_responses_list)
 
 # allows user to edit individual responses
 class PromptDetail(RetrieveUpdateDestroyAPIView):
@@ -127,17 +120,6 @@ class ResponseList(ListAPIView):  # lists responses specific to a single prompt
         user = self.request.user
         prompt_pk = self.kwargs['pk']
         return Responses.objects.filter(prompt_id__user_id=user, prompt_id=prompt_pk)
-
-
-class HistoryList(ListAPIView):  # lists responses specific to a single prompt
-    permission_classes = (IsOwnerOrReadOnly,)
-    serializer_class = ResponsesSerializer
-
-    def get_queryset(self):
-        user = self.request.user
-        prompt_pk = self.kwargs['pk']
-        return Responses.objects.filter(prompt_id__user_id=user)
-
 
 class LLMList(ListAPIView):
     queryset = LLM.objects.all()
