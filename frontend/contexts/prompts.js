@@ -33,7 +33,11 @@ export function usePrompts() {
 
 export default function PromptsProvider(props) {
   const { user, tokens } = useAuth();
-  const { data: prompts = [], mutate } = useSWR([apiUrl, tokens], fetchPrompts);
+  const { data: prompts = [], mutate } = useSWR(
+    [apiUrl, tokens],
+    fetchPrompts,
+    { refreshInterval: 1000 }
+  );
   const [outputs, setOutputs] = useState([]);
   const [isDirty, setIsDirty] = useState(false);
   const [error, setError] = useState(false);
@@ -74,7 +78,6 @@ export default function PromptsProvider(props) {
         config()
       ).then((res) => res.json());
       setOutputs(responsesFromBackend);
-      console.warn({ responsesFromBackend });
     } catch (err) {
       handleError(err);
       setError(true);
