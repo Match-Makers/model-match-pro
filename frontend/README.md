@@ -1,38 +1,55 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Model-Match-Pro
 
-## Getting Started
+## A Code Fellows Code401-Python Final Project by
 
-First, run the development server:
+- Deiosha Sparks: [Github](https://github.com/Deiosha), [LinkedIn](https://linkedin.com/in/deiosha-sparks-954882251/)
+- Jerry Barrows-Fitzgerald: [Github](https://github.com/jbarrfitz), [LinkedIn](https://linkedin.com/in/jbarrowsfitzgerald/)
+- Lauren Main: [Github](https://github.com/elleem), [LinkedIn](https://linkedin.com/in/laurenmain28/)
+- Manuch Sadri: [Github](https://github.com/mcsadri), [LinkedIn](https://linkedin.com/in/manuch-sadri/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Overview
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- What is the vision of this product?
+  - Model-Match-Pro enables its users to submit a single Large Language Model (LLM) prompt and then simltaneously compare the responses from multiple models to find which one(s) best match their use case.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+- What pain point does this project solve?
+  - With the recent proliferation of Large Language Models, many users pick their favorite and then try to engineer their prompts to work for their use case. Currently, there are very few, if any, applications that allow users to simltaneously compare results from multiple LLMs. Oftentimes, LLM users must test each LLM individually, and attempt to compare the responses through inefficient means.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+- Why should we care about your product?
+  - Model-Match-Pro will be one of the few products providing a method to compare the results from multiple LLMs within the same web browser tab using a single prompt submission.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Links
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- [Model Match Pro](https://model-match-pro.vercel.app/)
 
-## Learn More
+## Set-up
 
-To learn more about Next.js, take a look at the following resources:
+### Clone repo (if not done already)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- In terminal (assumes git, python3.11, and npm are previously installed):
+  - Clone repo from GitHub:
+    - $ ```git clone https://github.com/Match-Makers/model-match-pro.git```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Frontend Set-up
 
-## Deploy on Vercel
+- Open new terminal window or tab.
+- Change directory to the frontend folder in the cloned local repo:
+  - $ ```cd model-match-pro/frontend```
+- Install all the dependencies:
+  - $ ```npm install```
+- Get secrets from project team for `/model-match-pro/frontend/.env`.
+- Run local environment:
+  - $ ```npm run dev```
+- In browser (to run locally):
+  - http://localhost:3000
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Frontend Tests
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Open new terminal window or tab.
+- Change directory to the frontend folder in the cloned local repo:
+  - $ ```cd model-match-pro/frontend```
+- Run Playwright tests:
+  - With new user registration:
+    - $ ```node ./tests/pw-new-user.js```
+  - With existing user:
+    - $ ```node ./tests/pw-existing-user.js```

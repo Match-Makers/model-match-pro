@@ -23,42 +23,41 @@
 - [Model Match Pro](https://model-match-pro.vercel.app/)
 
 ## Set-up
+
+### Clone repo (if not done already)
+
 - In terminal (assumes git, python, and npm are previously installed):
   - Clone repo from GitHub:
     - $ ```git clone https://github.com/Match-Makers/model-match-pro.git```
 
-
 ### Backend Set-up
 
-  - Change directory to the backend folder in the cloned local repo:
-    - $ ```cd model-match-pro/backend```
-  - Create & run virtual environment:
-    - $ ```python3.11 -m venv .venv```
-    - $ ```source .venv/bin/activate```
-  - Install requirements:
-    - $ ```npm install -r requirements.txt```
-  - Get secrets from project team for `/model-match-pro/backend/model_match_proj/.env`
-  - Start dev server:
-  - $ ```python manage.py runserver```
+- Change directory to the backend folder in the cloned local repo:
+  - $ ```cd model-match-pro/backend```
+- Create & run virtual environment:
+  - $ ```python3.11 -m venv .venv```
+  - $ ```source .venv/bin/activate```
+- Install requirements:
+  - $ ```npm install -r requirements.txt```
+- Get secrets from project team for `/model-match-pro/backend/model_match_proj/.env`.
+- Start dev server:
+- $ ```python manage.py runserver```
 - In browser (to run locally):
   - Django REST Framework default web pages:
     - http://localhost:8000/ - home
     - http://localhost:8000/admin/ - admin panel
     - http://localhost:8000/api/v1/model_match_app
-- To run tests: 
-  - python manage.py test model_match_app.tests
-- To run coverage.py: 
-  - coverage run --source=model_match_app manage.py test model_match_app.tests
-- To generate the coverage report: 
-  - coverage report
 
-### Frontend Set-up
+### Backend Tests
 
-- Change directory to the frontend folder in the cloned local repo:
-  - $ ```cd model-match-pro/frontend```
-- to install all the dependency: 
-  - npm i 
-- run local environment: 
-  - npm run dev
-- In browser (to run locally): 
-  - http://localhost:3000
+- Open new terminal window or tab.
+- Change directory to the backend folder in the cloned local repo:
+  - $ ```cd model-match-pro/backend```
+- Create & run virtual environment:
+  - $ ```source .venv/bin/activate```
+- Run tests:
+  - $ ```python manage.py test model_match_app.tests```
+- Run coverage.py:
+  - $ ```coverage run --source=model_match_app manage.py test model_match_app.tests```
+- To generate the coverage report:
+  - $ ```coverage report```
