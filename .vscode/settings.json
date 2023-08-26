@@ -1,0 +1,18 @@
+{
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.workingDirectories": ["./frontend"],
+  "prettier.enable": true,
+  "prettier.semi": true,
+  "prettier.singleQuote": true,
+  "prettier.useTabs": false,
+  "prettier.tabWidth": 2,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8"
+  },
+  "python.formatting.provider": "none"
+}
