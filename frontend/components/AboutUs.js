@@ -70,10 +70,40 @@ export default function AboutUs() {
   ];
 
   const creditContainerStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     marginTop: '40px',
     textAlign: 'center',
     fontSize: '16px',
+    
   };
+
+  const modelParentContainerStyle = {
+    marginTop: '40px',
+    display: 'flex',
+    flexDirection: 'row', 
+    flexWrap: 'wrap', 
+    justifyContent: 'center',
+    width: '100%', 
+    alignItems: 'center'
+  };
+
+  const modelCreditContainerStyle= {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    margin: '20px',
+    padding: '20px', 
+    textAlign: 'center',
+    fontSize: '16px',
+    flexWrap: 'wrap',
+    maxWidth:'300px',
+    boxSizing: 'border-box',
+    border: '1px solid #ccc', 
+    borderRadius: '8px', 
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', 
+  }
   
   const models = [
     {
@@ -167,11 +197,11 @@ export default function AboutUs() {
       <h3 style={centeredStyle}>Credits</h3>
         <p>Special thanks to <a href="https://huggingface.co/" target="_blank" rel="noopener noreferrer" style={linkStyle}>Hugging Face</a> for their incredible api that powered our application.</p>
       </div>
-      <div style={{marginTop: '40px'}}>
+      <div style={{marginTop: '40px', textAlign: 'center'}}>
         <h3 style={centeredStyle}>Models We Used</h3>
-      <div style={containerStyle}>
+        <div style={modelParentContainerStyle}>
         {models.map((model, index) => (
-          <div key={index} style={contentContainerStyle}>
+          <div key={index} style={modelCreditContainerStyle}>
             <h4 style={centeredStyle}><a href={model.link} target="_blank" rel="noopener noreferrer" style={linkStyle}>{model.name}</a></h4>
             <p>{model.description}</p>
           </div>

@@ -16,21 +16,20 @@
   - With the recent proliferation of Large Language Models, many users pick their favorite and then try to engineer their prompts to work for their use case. Currently, there are very few, if any, applications that allow users to simltaneously compare results from multiple LLMs. Oftentimes, LLM users must test each LLM individually, and attempt to compare the responses through inefficient means.
 
 - Why should we care about your product?
-  - Model-Match-Pro will be one of the few products providing a method to compare the results from multiple LLMs within the same web browser browser tab using a single prompt submission.
+  - Model-Match-Pro will be one of the few products providing a method to compare the results from multiple LLMs within the same web browser tab using a single prompt submission.
 
 ## Links
 
 - [Model Match Pro](https://model-match-pro.vercel.app/)
 
-## Frontend Set-up
-- run local environment: 
-  - npm run dev
-
-## Backend Set-up
-
+## Set-up
 - In terminal (assumes git, python, and npm are previously installed):
   - Clone repo from GitHub:
     - $ ```git clone https://github.com/Match-Makers/model-match-pro.git```
+
+
+### Backend Set-up
+
   - Change directory to the backend folder in the cloned local repo:
     - $ ```cd model-match-pro/backend```
   - Create & run virtual environment:
@@ -53,3 +52,13 @@
 - To generate the coverage report: 
   - coverage report
 
+### Frontend Set-up
+
+- Change directory to the frontend folder in the cloned local repo:
+  - $ ```cd model-match-pro/frontend```
+- to install all the dependency: 
+  - npm i 
+- run local environment: 
+  - npm run dev
+- In browser (to run locally): 
+  - http://localhost:3000
