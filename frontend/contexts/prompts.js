@@ -115,6 +115,7 @@ export default function PromptsProvider(props) {
         error,
         isDirty,
         loading,
+        setIsDirty,
         createPrompt,
         deletePrompt,
       }}

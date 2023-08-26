@@ -30,9 +30,10 @@ export default function Search() {
   return (
     <>
       <Header />
-      <SearchBar />
-      <div className="flex">
-        <ModelList />
+      <div className="flex flex-col gap-1 px-0.5">
+        <SearchBar>
+          <ModelList />
+        </SearchBar>
         {isDirty && (
           <Outputs
             outputs={modelsWithResponses}
