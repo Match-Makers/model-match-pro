@@ -1,12 +1,45 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+} from 'react';
 import jwt from 'jsonwebtoken';
 import Cookies from 'js-cookie';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 const tokenUrl = `${baseUrl}/api/token/`;
 
-export const AuthContext = createContext({
+export interface IUser {
+  username: string;
+  id: string;
+  email?: string;
+}
+
+export interface IAuthState {
+  tokens: any | null;
+  user: IUser | null;
+  loading: boolean;
+  error?: any;
+}
+export interface IAuth extends IAuthState {
+  register: any;
+  login: any;
+  logout: any;
+}
+
+const initialAuthState: IAuthState = {
+  tokens: null,
+  user: null,
+  error: undefined,
   loading: true,
+};
+
+export const AuthContext = createContext<IAuth>({
+  ...initialAuthState,
+  register: () => undefined,
+  login: () => undefined,
+  logout: () => undefined,
 });
 
 export function useAuth() {
@@ -18,12 +51,7 @@ export function useAuth() {
 }
 
 export function AuthProvider(props) {
-  const [state, setState] = useState({
-    tokens: null,
-    user: null,
-    error: undefined,
-    loading: true,
-  });
+  const [state, setState] = useState<IAuthState>(initialAuthState);
 
   useEffect(() => {
     try {
@@ -96,6 +124,7 @@ export function AuthProvider(props) {
     setState({
       tokens: null,
       user: null,
+      loading: false,
     });
     Cookies.remove('authTokens');
     window.location.reload();

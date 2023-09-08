@@ -3,23 +3,23 @@ import Image from 'next/image';
 import backsplash from '../img/backsplash.jpeg';
 
 const containerStyle = {
-  position: 'relative',
+  position: 'relative' as any,
   width: '100vw',
   height: '30vh',
   overflow: 'hidden',
   display: 'flex',
   alignItems: 'center',
-  textAlign: 'left',
+  textAlign: 'left' as any,
   padding: '30px',
 };
 
 const imageStyle = {
-  position: 'absolute',
+  position: 'absolute' as any,
   top: 0,
   left: 0,
   width: '100%',
   height: '100%',
-  objectFit: 'cover', // This will ensure the image covers the entire container
+  objectFit: 'cover' as any, // This will ensure the image covers the entire container
 };
 
 const paragraphStyle = {

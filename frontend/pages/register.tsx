@@ -3,14 +3,12 @@ import SignUpform from '@/components/SignUpForm';
 import { useAuth } from '@/contexts/auth';
 
 export default function Register() {
-  const {register} = useAuth();
+  const { register } = useAuth();
 
   return (
     <>
-      <Header>
-        <button>this is the button</button>{' '}
-      </Header>
-      <SignUpform onRegister={register}/>
+      <Header />
+      <SignUpform onRegister={register} />
     </>
   );
 }
