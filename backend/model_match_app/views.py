@@ -10,9 +10,6 @@ from .serializers import LLMSerializer, PromptSerializer, ResponsesSerializer
 from rest_framework import status
 import httpx
 
-import environ
-env = environ.Env()
-environ.Env.read_env()
 
 API_TOKEN = env("API_TOKEN", default=None)
 
