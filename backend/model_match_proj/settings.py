@@ -31,7 +31,8 @@ env = environ.Env(
     DATABASE_PORT=(int, 5432),
 )
 
-environ.Env.read_env()
+environ.Env.read_env('/home/lauren/projects/courses/401/model-match-pro/backend/.env')
+
 
 ENVIRONMENT = env.str("ENVIRONMENT")
 
@@ -40,6 +41,8 @@ ENVIRONMENT = env.str("ENVIRONMENT")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env.str("SECRET_KEY")
+
+API_TOKEN = env.str("API_TOKEN")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG")
@@ -185,4 +188,5 @@ STATICFILES_DIRS = [
 # AUTH
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
+
 
