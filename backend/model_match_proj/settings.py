@@ -31,7 +31,9 @@ env = environ.Env(
     DATABASE_PORT=(int, 5432),
 )
 
-environ.Env.read_env('/home/lauren/projects/courses/401/model-match-pro/backend/.env')
+environ.Env.read_env()
+
+
 
 
 ENVIRONMENT = env.str("ENVIRONMENT")
@@ -187,6 +189,6 @@ STATICFILES_DIRS = [
 
 # AUTH
 LOGIN_REDIRECT_URL = "home"
-LOGOUT_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "admin:login"
 
 

@@ -10,6 +10,7 @@ django-environ==0.10.0
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.2
 fire==0.5.0
+gunicorn==21.2.0
 h11==0.14.0
 httpcore==0.17.3
 httpx==0.24.1
@@ -20,6 +21,7 @@ pluggy==1.2.0
 psycopg2-binary==2.9.7
 PyJWT==2.8.0
 pytest==7.4.0
+pytest-django==4.5.2
 pytz==2023.3
 rcssmin==1.1.1
 requests==2.31.0

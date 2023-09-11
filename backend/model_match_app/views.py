@@ -20,7 +20,7 @@ if not settings.API_TOKEN:
 HEADERS = {"Authorization": f"Bearer {settings.API_TOKEN}"}
 BASE_API_URL = "https://api-inference.huggingface.co/models/"
 
-def make_api_call(api_code, input_str, timeout=10):
+def make_api_call(api_code, input_str, timeout=500):
         api_url = f"{BASE_API_URL}{api_code}"
         payload = {"inputs": input_str}
 
