@@ -25,11 +25,11 @@ export default function App({ Component, pageProps }) {
   }, []);
 
   // Custom CSS for loader
-  const override = `
-    display: block;
-    margin: 0 auto;
-    border-color: red;
-  `;
+  // const override = `
+  //   display: block;
+  //   margin: 0 auto;
+  //   border-color: red;
+  // `;
 
   return (
     <AuthProvider>
@@ -41,8 +41,8 @@ export default function App({ Component, pageProps }) {
               <PacmanLoader
                 className="h-full mx-auto mt-5"
                 color={'var(--bs-info)'}
-                isLoading={isLoading}
-                css={override}
+                loading={isLoading}
+                // css={override}
                 size={150}
               />
             ) : (

@@ -7,10 +7,13 @@ import { createContext, useContext, useState } from 'react';
 
 export const PromptsContext = createContext({
   prompts: [],
+  outputs: [],
   error: false,
   loading: false,
   isDirty: false,
-  createPrompt: () => undefined,
+  createPrompt: (info: any) => info,
+  setIsDirty: (info: any) => info,
+  deletePrompt: (foo: any) => foo,
 });
 
 export function usePrompts() {
@@ -69,8 +72,8 @@ export default function PromptsProvider(props) {
           user_id: user.id,
         }),
       };
-      const promptFromBackend = await fetch(apiUrl, options).then((res) =>
-        res.json()
+      const promptFromBackend = await fetch(apiUrl, options).then(
+        (res) => res.json()
       );
 
       const responsesFromBackend = await fetch(
@@ -101,8 +104,10 @@ export default function PromptsProvider(props) {
   async function deletePrompt(id) {
     try {
       const url = apiUrl + id;
-      const options = config();
-      options.method = 'DELETE';
+      const options = {
+        ...config(),
+        method: 'DELETE',
+      };
       await fetch(url, options);
       mutate();
     } catch (err) {

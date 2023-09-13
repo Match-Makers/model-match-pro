@@ -24,9 +24,14 @@ const DATE_OPTIONS = {
   hour: '2-digit', // HH (2-digit hour)
   minute: '2-digit',
   second: '2-digit', // mm (2-digit minute)
-};
+} as any;
 
-export function HistoryItem({ deletePrompt, id, input_str, request_time }) {
+export function HistoryItem({
+  deletePrompt,
+  id,
+  input_str,
+  request_time,
+}) {
   const { tokens } = useAuth();
   const { models } = useModels();
   const { setSearchText } = useSearch();
@@ -64,7 +69,9 @@ export function HistoryItem({ deletePrompt, id, input_str, request_time }) {
           .then((res) => res.json())
           .then((outputs) => {
             const outputsWithModels = outputs.map((output) => {
-              const model = models.find((m) => m.id === output.lang_model_id);
+              const model = models.find(
+                (m) => m.id === output.lang_model_id
+              );
               return {
                 ...model,
                 output,
@@ -74,7 +81,10 @@ export function HistoryItem({ deletePrompt, id, input_str, request_time }) {
           });
       } catch (err) {
         setError(true);
-        console.error(`Error fetching responses for prompt #${id}`, err);
+        console.error(
+          `Error fetching responses for prompt #${id}`,
+          err
+        );
       }
       setLoading(false);
     }
@@ -109,7 +119,10 @@ export default function History() {
 
   if (loading) return <Spinner />;
 
-  if (error) return <Alert color="danger">Error loading prompt history!</Alert>;
+  if (error)
+    return (
+      <Alert color="danger">Error loading prompt history!</Alert>
+    );
 
   if (!prompts.length)
     return <Alert color="warning">No prompts exist yet!</Alert>;
@@ -117,7 +130,13 @@ export default function History() {
   return (
     <ListGroup flush className="max-w-screen-xl mx-auto">
       {prompts.reverse().map((prompt, i) => {
-        return <HistoryItem key={i} {...prompt} deletePrompt={deletePrompt} />;
+        return (
+          <HistoryItem
+            key={i}
+            {...prompt}
+            deletePrompt={deletePrompt}
+          />
+        );
       })}
     </ListGroup>
   );

@@ -10,7 +10,7 @@ export const ModelsContext = createContext({
   selectedModels: [],
   error: null,
   loading: false,
-  toggleModelActive: () => undefined,
+  toggleModelActive: (modelCode: any) => modelCode,
 });
 
 export function useModels() {
