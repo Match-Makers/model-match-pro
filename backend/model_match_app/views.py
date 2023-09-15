@@ -10,6 +10,7 @@ from .serializers import LLMSerializer, PromptSerializer, ResponsesSerializer
 from rest_framework import status
 import httpx
 import asyncio
+from asgiref.sync import sync_to_async
 
 from django.conf import settings
 
@@ -85,7 +86,7 @@ class PromptList(ListCreateAPIView):
             else:
                 return error
 
-        results = asyncio.gather(*(fetch_create_response(model_id) for model_id in lang_models))
+        results = sync_to_async(asyncio.gather(*(fetch_create_response(model_id) for model_id in lang_models)))
 
         # Separate results into responses and errors
         api_responses_list = [result for result in results if not 'error' in result]
