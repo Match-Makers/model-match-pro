@@ -33,6 +33,9 @@ env = environ.Env(
 
 environ.Env.read_env()
 
+
+
+
 ENVIRONMENT = env.str("ENVIRONMENT")
 
 # Quick-start development settings - unsuitable for production
@@ -40,6 +43,8 @@ ENVIRONMENT = env.str("ENVIRONMENT")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env.str("SECRET_KEY")
+
+API_TOKEN = env.str("API_TOKEN")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG")
@@ -184,5 +189,6 @@ STATICFILES_DIRS = [
 
 # AUTH
 LOGIN_REDIRECT_URL = "home"
-LOGOUT_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "admin:login"
+
 

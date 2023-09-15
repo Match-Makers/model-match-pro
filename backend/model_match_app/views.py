@@ -10,40 +10,38 @@ from .serializers import LLMSerializer, PromptSerializer, ResponsesSerializer
 from rest_framework import status
 import httpx
 
-import environ
-env = environ.Env()
-environ.Env.read_env()
+from django.conf import settings
 
-API_TOKEN = env("API_TOKEN", default=None)
 
-if not API_TOKEN:
+
+if not settings.API_TOKEN:
     raise ValueError("API_TOKEN is not set in .env file.")
 
-HEADERS = {"Authorization": f"Bearer {API_TOKEN}"}
+HEADERS = {"Authorization": f"Bearer {settings.API_TOKEN}"}
 BASE_API_URL = "https://api-inference.huggingface.co/models/"
 
 def make_api_call(api_code, input_str, timeout=500):
-    api_url = f"{BASE_API_URL}{api_code}"
-    payload = {"inputs": input_str}
+        api_url = f"{BASE_API_URL}{api_code}"
+        payload = {"inputs": input_str}
 
-    print(f"Making API call to {api_url} with query: {input_str}")
-    with httpx.Client() as client:
-        response = client.post(api_url, headers=HEADERS, json=payload, timeout=timeout)
-    print(f"Received status code {response.status_code} from {api_url}")
-    if response.status_code == 302:
-        redirect_url = response.headers.get('Location')
-        print("Redirecting to:", redirect_url)
-        error_message = f"Redirecting to: {redirect_url}"
-        return None, error_message
+        print(f"Making API call to {api_url} with query: {input_str}")
+        with httpx.Client() as client:
+            response = client.post(api_url, headers=HEADERS, json=payload, timeout=timeout)
+        print(f"Received status code {response.status_code} from {api_url}")
+        if response.status_code == 302:
+            redirect_url = response.headers.get('Location')
+            print("Redirecting to:", redirect_url)
+            error_message = f"Redirecting to: {redirect_url}"
+            return None, error_message
 
-    if response.status_code != 200:
-        error_message = f"API call failed for model {api_code} with status code {response.status_code}: {response.text}"
-        return None, error_message
+        if response.status_code != 200:
+            error_message = f"API call failed for model {api_code} with status code {response.status_code}: {response.text}"
+            return None, error_message
 
-    api_response = response.json()
-    print(f"Received API response: {api_response}")
+        api_response = response.json()
 
-    return api_response, None
+
+        return api_response, None
 
 # lists and creates prompts
 class PromptList(ListCreateAPIView):
@@ -97,8 +95,6 @@ class PromptList(ListCreateAPIView):
                 'errors': error_messages
             }
             prompt.error_messages=custom_data
-
-        # At this point, api_responses_list contains all the API responses
 
         print(api_responses_list)
 
