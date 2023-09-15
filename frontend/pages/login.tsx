@@ -15,9 +15,7 @@ export default function Login() {
   }, [user]);
   return (
     <>
-      <Header>
-        <button>this is the button</button>{' '}
-      </Header>
+      <Header />
       <SignIn />
     </>
   );

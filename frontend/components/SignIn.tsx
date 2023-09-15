@@ -6,7 +6,10 @@ export default function SignIn() {
   async function handleSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
-    let user = {};
+    let user = {
+      username: '',
+      password: '',
+    };
     for (let entry of formData.entries()) {
       user[entry[0]] = entry[1];
     }
@@ -47,8 +50,8 @@ export default function SignIn() {
       </button>
       <div className="mb-3">
         <p>
-          <Link href={'/register'}>Sign Up</Link> if you don&apos;t already have
-          an account.
+          <Link href={'/register'}>Sign Up</Link> if you don&apos;t
+          already have an account.
         </p>
       </div>
     </form>
