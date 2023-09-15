@@ -53,17 +53,17 @@ class PromptList(ListCreateAPIView):
         user = self.request.user
         return Prompt.objects.filter(user_id=user)
 
-    async def create(self, request, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         print("Creating a new prompt...")
-        response = await super(PromptList, self).create(request, *args, **kwargs)
+        response = super(PromptList, self).create(request, *args, **kwargs)
         if response.status_code == status.HTTP_201_CREATED:
             prompt_id = response.data.get('id')
             prompt_instance = Prompt.objects.get(pk=prompt_id)
             print("Fetched Prompt instance:", prompt_instance)
-            await self.create_responses(prompt_instance,request, *args, **kwargs)
+            self.create_responses(prompt_instance,request, *args, **kwargs)
         return response
 
-    async def create_responses(self,prompt,request, *args, **kwargs):
+    def create_responses(self,prompt,request, *args, **kwargs):
         input_str = prompt.input_str
         lang_models = prompt.lang_models
 
@@ -85,7 +85,7 @@ class PromptList(ListCreateAPIView):
             else:
                 return error
 
-        results = await asyncio.gather(*(fetch_create_response(model_id) for model_id in lang_models))
+        results = asyncio.gather(*(fetch_create_response(model_id) for model_id in lang_models))
 
         # Separate results into responses and errors
         api_responses_list = [result for result in results if not 'error' in result]
